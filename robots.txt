@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://manas590.github.io/bharat-khoj/sitemap.xml
