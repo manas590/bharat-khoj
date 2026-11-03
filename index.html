@@ -2,43 +2,20 @@
 <html>
 <head>
 <title>Bharat Khoj</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body style="text-align:center; font-family:Arial; padding-top:50px;">
-<h1>Bharat Khoj</h1>
-<p>Apna Desi Search Engine</p>
-<input type="text" placeholder="Search karo..." style="padding:10px; width:70%<!DOCTYPE html>
-<html>
-<head>
-<title>Bharat Khoj</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body style="text-align:center; font-family:Arial; padding:20px;">
-
 <h1>Bharat Khoj</h1>
 <p>Apna Desi Search Engine</p>
-
-<input id="searchBox" type="text" placeholder="Kuch bhi puchho..." style="width:90%; max-width:400px; padding:10px; font-size:18px;">
+<input id="searchBox" type="text" placeholder="Search karo" style="width:90%; padding:10px;">
 <br><br>
-<button onclick="khojo()" style="padding:10px 20px; font-size:18px;">Khojo</button>
-
+<button onclick="khojo()" style="padding:10px 20px;">Khojo</button>
 <script>
 function khojo(){
-  var q = document.getElementById('searchBox').value;
-  if(q==""){ alert("Kuch likho!"); return; }
-  window.open("https://www.google.com/search?q="+q, "_blank");
+var q=document.getElementById('searchBox').value;
+if(!q){alert("Kuch likho");return;}
+window.open("https://www.google.com/search?q="+q,"_blank");
 }
 </script>
-
-<hr>
-<footer>
-<a href="about.html">About</a> | 
-<a href="privacy.html">Privacy</a> | 
-<a href="contact.html">Contact</a> | 
-<a href="terms.html">Terms</a>
-<br><br>
-© 2026 Bharat Khoj - Made in Patna
-</footer>
-
 </body>
 </html>
