@@ -2,7 +2,7 @@
   "name": "Bharat Khoj - Bihar ka Google",
   "short_name": "Bharat Khoj",
   "description": "Bihar ka apna Google - Mausam, News, Krishi, Cricket sab kuch",
-  "start_url": "/bharat-khoj/",bharat-khoj
+  "start_url": "/bharat-khoj/","start_url": "/bharat-khoj/"
   "scope": "/bharat-khoj/",
   "display": "standalone",
   "background_color": "#ffffff",
