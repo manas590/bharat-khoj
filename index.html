@@ -7,17 +7,38 @@
 <body style="text-align:center; font-family:Arial; padding-top:50px;">
 <h1>Bharat Khoj</h1>
 <p>Apna Desi Search Engine</p>
-<input type="text" placeholder="Search karo..." style="padding:10px; width:70%;">
+<input type="text" placeholder="Search karo..." style="padding:10px; width:70%<!DOCTYPE html>
+<html>
+<head>
+<title>Bharat Khoj</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="text-align:center; font-family:Arial; padding:20px;">
+
+<h1>Bharat Khoj</h1>
+<p>Apna Desi Search Engine</p>
+
+<input id="searchBox" type="text" placeholder="Kuch bhi puchho..." style="width:90%; max-width:400px; padding:10px; font-size:18px;">
 <br><br>
-<button style="padding:10px 20px;">Khojo</button>
+<button onclick="khojo()" style="padding:10px 20px; font-size:18px;">Khojo</button>
+
+<script>
+function khojo(){
+  var q = document.getElementById('searchBox').value;
+  if(q==""){ alert("Kuch likho!"); return; }
+  window.open("https://www.google.com/search?q="+q, "_blank");
+}
+</script>
+
 <hr>
-<footer style="text-align:center; padding:20px; margin-top:50px;">
-<a href="about.html">About</a> |
-<a href="privacy.html">Privacy Policy</a> |
-<a href="contact.html">Contact</a> |
+<footer>
+<a href="about.html">About</a> | 
+<a href="privacy.html">Privacy</a> | 
+<a href="contact.html">Contact</a> | 
 <a href="terms.html">Terms</a>
 <br><br>
-<p>© 2026 Bharat Khoj - Made in Patna, Bihar</p>
+© 2026 Bharat Khoj - Made in Patna
 </footer>
+
 </body>
-</html>>
+</html>
