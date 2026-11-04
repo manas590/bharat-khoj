@@ -5,34 +5,89 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bharat Khoj</title>
 <style>
-body{font-family:Arial;text-align:center;padding:15px}
-input{width:100%;max-width:580px;padding:16px;border-radius:30px;border:1px solid #ddd;font-size:19px}
+body{font-family:Arial;text-align:center;padding:15px;background:#fff}
+input{width:100%;max-width:580px;padding:16px;border-radius:30px;border:1px solid #ddd;font-size:19px;outline:none}
 .btn{border:none;color:#fff;font-size:18px;border-radius:30px;padding:14px 28px;margin:8px;cursor:pointer}
 .blue{background:#0a58ca}.orange{background:#ff6f00}.green{background:#0a8a3a}
-.card{text-align:left;max-width:620px;margin:15px auto;padding:15px;border:1px solid #eee;border-radius:14px}
+.card{text-align:left;max-width:620px;margin:15px auto;padding:15px;border:1px solid #eee;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,0.05)}
 .box{background:#e8f5e9;padding:12px;border-radius:12px;max-width:620px;margin:10px auto}
 </style>
 </head>
 <body>
-<h1 style="font-size:50px">Bharat Khoj</h1>
+<h1 style="font-size:50px;margin:5px">Bharat Khoj</h1>
 <p>Desi Google - Roz 1500 Naye Question Save Hoga</p>
 <div class="box" id="countBox">Loading...</div>
 <input id="q" placeholder="Kuch bhi pucho..." onkeydown="if(event.key==='Enter')khoj()"><br><br>
 <button class="btn blue" onclick="khoj()">Khoj Karo 🔍</button>
 <button class="btn orange" onclick="khoj()">AI Se Pucho ✨</button>
 <div id="results"></div>
+
 <script>
 const GEMINI_KEY = "YAHAN_APNI_GEMINI_KEY_DALO";
 const FIREBASE_URL = "https://bharat-khoj-13d31-default-rtdb.firebaseio.com";
 const DAILY_LIMIT = 1500;
+
 function aajKaDate(){ return new Date().toISOString().slice(0,10); }
-async function getAajCount(){ try{ let r = await fetch(FIREBASE_URL+"/daily/"+aajKaDate()+".json").then(x=>x.json()); return r ? r.count : 0; }catch(e){ return 0; } }
-async function badhaoCount(){ let c = await getAajCount(); await fetch(FIREBASE_URL+"/daily/"+aajKaDate()+".json",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({count:c+1})}); }
-async function updateBoxes(){ let aaj = await getAajCount(); document.getElementById('countBox').innerHTML = `📅 <b>Aaj: ${aaj} / 1500 use hue</b> | Bache: <b>${1500-aaj}</b>`; }
-async function getFromFirebase(q){ try{ let r = await fetch(FIREBASE_URL+"/qa.json").then(x=>x.json()); if(!r) return null; for(let k in r){ if(r[k].q.toLowerCase().trim()===q.toLowerCase().trim()) return r[k]; } }catch(e){} return null; }
-async function saveToFirebase(q,a){ await fetch(FIREBASE_URL+"/qa.json",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({q:q,a:a,date:aajKaDate()})}); }
-async function askGemini(qu){ let res = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key="+GEMINI_KEY,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({contents:[{parts:[{text:"Iska jawab Hindi me, 2-3 line me do: "+qu}]}]})}); let data = await res.json(); return data.candidates[0].content.parts[0].text; }
-async function khoj(){ let qu = document.getElementById('q').value.trim(); if(!qu){ alert("Pehle Question likho!"); return; } document.getElementById('results').innerHTML=`<div class="card"><h3>🔍 Jawab la rahe hai...</h3></div>`; let fb = await getFromFirebase(qu); if(fb){ document.getElementById('results').innerHTML=`<div class="card"><h3>💾 Save Tha - AI Power Bacha!</h3><p><b>Q:</b> ${qu}</p><p><b>A:</b> ${fb.a}</p></div>`; return; } if(!GEMINI_KEY || GEMINI_KEY.includes("YAHAN")){ document.getElementById('results').innerHTML=`<div class="card"><h3>⚠️ Gemini Key Nahi Dali!</h3><p>aistudio.google.com se Key lo</p></div>`; return; } try{ let ans = await askGemini(qu); await saveToFirebase(qu, ans); await badhaoCount(); await updateBoxes(); document.getElementById('results').innerHTML=`<div class="card"><h3>✨ AI Se Naya Jawab</h3><p><b>Q:</b> ${qu}</p><p><b>A:</b> ${ans}</p><p style="color:green">✅ Save Ho Gaya!</p></div>`; }catch(e){ document.getElementById('results').innerHTML=`<div class="card"><h3>⚠️ ${e.message}</h3></div>`; } }
+
+async function getAajCount(){
+  try{ let r = await fetch(FIREBASE_URL+"/daily/"+aajKaDate()+".json").then(x=>x.json());
+  return r ? r.count : 0; }catch(e){ return 0; }
+}
+
+async function badhaoCount(){
+  let c = await getAajCount();
+  await fetch(FIREBASE_URL+"/daily/"+aajKaDate()+".json",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({count:c+1})});
+}
+
+async function updateBoxes(){
+  let aaj = await getAajCount();
+  document.getElementById('countBox').innerHTML = `📅 <b>Aaj: ${aaj} / 1500 use hue</b> | Bache: <b>${1500-aaj}</b>`;
+}
+
+async function getFromFirebase(q){
+  try{
+    let r = await fetch(FIREBASE_URL+"/qa.json").then(x=>x.json());
+    if(!r) return null;
+    for(let k in r){
+      if(r[k].q.toLowerCase().trim()===q.toLowerCase().trim()) return r[k];
+    }
+  }catch(e){}
+  return null;
+}
+
+async function saveToFirebase(q,a){
+  await fetch(FIREBASE_URL+"/qa.json",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({q:q,a:a,date:aajKaDate()})});
+}
+
+async function askGemini(qu){
+  let res = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key="+GEMINI_KEY,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({contents:[{parts:[{text:"Iska jawab Hindi me, 2-3 line me do: "+qu}]}]})});
+  let data = await res.json();
+  return data.candidates[0].content.parts[0].text;
+}
+
+async function khoj(){
+  let qu = document.getElementById('q').value.trim();
+  if(!qu){ alert("Pehle Question likho!"); return; }
+  document.getElementById('results').innerHTML=`<div class="card"><h3>🔍 Jawab la rahe hai...</h3></div>`;
+  let fb = await getFromFirebase(qu);
+  if(fb){
+    document.getElementById('results').innerHTML=`<div class="card"><h3>💾 Save Tha - AI Power Bacha!</h3><p><b>Q:</b> ${qu}</p><p><b>A:</b> ${fb.a}</p></div>`;
+    return;
+  }
+  if(!GEMINI_KEY || GEMINI_KEY.includes("YAHAN")){
+    document.getElementById('results').innerHTML=`<div class="card"><h3>⚠️ Gemini Key Nahi Dali!</h3><p>aistudio.google.com se Key lo aur upar wali line me daalo</p></div>`;
+    return;
+  }
+  try{
+    let ans = await askGemini(qu);
+    await saveToFirebase(qu, ans);
+    await badhaoCount();
+    await updateBoxes();
+    document.getElementById('results').innerHTML=`<div class="card"><h3>✨ AI Se Naya Jawab</h3><p><b>Q:</b> ${qu}</p><p><b>A:</b> ${ans}</p><p style="color:green">✅ Save Ho Gaya!</p></div>`;
+  }catch(e){
+    document.getElementById('results').innerHTML=`<div class="card"><h3>⚠️ ${e.message}</h3></div>`;
+  }
+}
 updateBoxes();
 </script>
 </body>
