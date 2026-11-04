@@ -51,4 +51,63 @@ body{margin:0;font-family:Arial;text-align:center;background:white}
 </div>
 
 <div class="addBox">
-<h3>➕ Naya
+<h3>➕ Naya Sawal-Jawab Sikhao Bharat Khoj ko!</h3>
+<input id="newQ" placeholder="Sawal likho - Jaise: Khagaria ka pin code?">
+<input id="newA" placeholder="Jawab likho - Jaise: 851204">
+<button onclick="sikhado()">✅ Save Karo - Bharat Khoj ko Sikhao</button>
+<p style="font-size:13px;color:#666">Jab koi yehi sawal puchega, Bharat Khoj khud jawab de dega, Google pe nahi jana padega!</p>
+</div>
+
+<script>
+let data = JSON.parse(localStorage.getItem("bk_data") || "{}");
+if(Object.keys(data).length==0){
+ data = {
+  "khagaria ka mausam": "Aaj Khagaria me Mausam saaf hai, 28°C hai. Barish ka chance kam hai.",
+  "khagaria mandi bhav": "Aaj Khagaria Mandi me Dhan - Rs 2300/quintal, Makka - Rs 2200/quintal hai.",
+  "aaj sona ka bhav": "Aaj Sona 10 gram - Rs 78,500 hai. Khagaria Sarafa Bazar ka bhav.",
+  "khagaria ka pin code": "Khagaria ka Pin Code 851204 hai.",
+  "bihar sarkari yojana": "Bihar me Mukhyamantri Kanya Utthan, PM Awas Yojana chal rahi hai. Puri jankari bihar.gov.in pe hai.",
+  "khagaria train time": "Khagaria se Patna ke liye subah 7:30, 10:15 aur sham 5:40 pe train hai."
+ };
+ localStorage.setItem("bk_data", JSON.stringify(data));
+}
+function showList(){
+ document.getElementById("totalQ").innerText = Object.keys(data).length;
+ let h="";
+ for(let k in data){ h+=`<div class="qItem"><b>Q:</b> ${k}<br><b style="color:green">A:</b> ${data[k]}</div>`; }
+ document.getElementById("list").innerHTML=h;
+}
+showList();
+function khoj(){
+ let q = document.getElementById("inp").value.toLowerCase().trim();
+ if(!q) return;
+ if(data[q]){
+   document.getElementById("ans").style.display="block";
+   document.getElementById("ansText").innerText = data[q];
+   window.scrollTo(0,200);
+ } else {
+   alert("Ye sawal naya hai! Google pe dekh rahe hain, jawab milte hi niche Save kar dena, agli baar Bharat Khoj khud jawab dega!");
+   window.open("https://www.google.com/search?q="+q,"_blank");
+ }
+}
+function pucho(q){ document.getElementById("inp").value=q; khoj(); }
+function sikhado(){
+ let q=document.getElementById("newQ").value.toLowerCase().trim();
+ let a=document.getElementById("newA").value.trim();
+ if(!q||!a){ alert("Sawal aur Jawab dono likho bhaiya!"); return; }
+ data[q]=a;
+ localStorage.setItem("bk_data", JSON.stringify(data));
+ showList();
+ alert("Ho gaya! Ab koi bhi ye sawal puchega to Bharat Khoj khud jawab dega!");
+ document.getElementById("newQ").value=""; document.getElementById("newA").value="";
+}
+function startVoice(){
+ let SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+ if(!SR){ alert("Chrome me kholo"); return; }
+ let rec=new SR(); rec.lang="hi-IN";
+ rec.onresult=function(e){ document.getElementById("inp").value=e.results[0][0].transcript; khoj(); };
+ rec.start();
+}
+</script>
+</body>
+                            </html>
