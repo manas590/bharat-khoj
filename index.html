@@ -3,63 +3,52 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bharat Khoj</title>
+<title>Bharat Khoj - Apna Google</title>
 <style>
 body{margin:0;font-family:Arial;text-align:center;background:white}
-.top{display:flex;justify-content:flex-end;gap:16px;padding:12px 16px;font-size:15px;color:#555;align-items:center}
-.top b{background:#2196F3;color:#fff;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px}
-.logo{font-size:62px;font-weight:900;letter-spacing:-2px;margin-top:20px}
+.logo{font-size:55px;font-weight:900;margin-top:25px}
 .logo span:nth-child(1){color:#4285F4}.logo span:nth-child(2){color:#EA4335}.logo span:nth-child(3){color:#FBBC05}.logo span:nth-child(4){color:#4285F4}.logo span:nth-child(5){color:#34A853}.logo span:nth-child(6){color:#EA4335}.logo span:nth-child(7){color:#4285F4}.logo span:nth-child(8){color:#FBBC05}.logo span:nth-child(9){color:#4285F4}.logo span:nth-child(10){color:#000}
-.search{margin:25px 15px;display:flex;align-items:center;border:1px solid #ddd;border-radius:35px;padding:12px 15px;box-shadow:0 3px 12px #ddd;gap:10px}
+.search{margin:20px 15px;display:flex;align-items:center;border:1px solid #ddd;border-radius:35px;padding:12px 15px;box-shadow:0 3px 12px #ddd;gap:10px}
 .search input{flex:1;border:none;outline:none;font-size:18px}
-.mic{background:#FF5722;color:#fff;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px}
-.cam{background:#1A2A6C;color:#fff;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px}
-.btns{display:flex;justify-content:center;gap:10px;padding:0 15px}
-.btns button{flex:1;max-width:230px;padding:14px;background:#1A2A6C;color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:bold;box-shadow:0 4px 10px #aaa}
-.grid{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;padding:25px 15px}
-.pill{width:145px;padding:15px;border-radius:25px;color:#fff;font-weight:bold;font-size:16px;text-decoration:none;box-shadow:0 3px 8px #ccc}
-.visitors{margin:10px 18px 25px;background:linear-gradient(135deg,#1A2A8C,#6A1B9A);color:#fff;padding:20px;border-radius:18px;text-align:left}
-.visitors .row{display:flex;justify-content:space-between;align-items:center;font-size:18px;margin:6px 0}
-.visitors .row b{font-size:32px}
-.live{color:#fff;font-size:17px;font-weight:bold;margin-top:10px}
-.small{font-size:12px;color:#d0bfff;text-align:center;margin-top:8px}
+.mic{background:#FF5722;color:#fff;width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;border:none}
+.btns{display:flex;justify-content:center;gap:10px}
+.btns button{padding:13px 20px;background:#1A2A6C;color:#fff;border:none;border-radius:12px;font-weight:bold}
+.answerBox{margin:15px;text-align:left;background:#E8F5E9;border:2px solid #00A651;border-radius:15px;padding:15px;display:none}
+.answerBox b{color:#00A651;font-size:18px}
+.savedBox{margin:15px;text-align:left;background:#FFF3E0;border-radius:15px;padding:15px}
+.savedBox h3{margin:0 0 10px}
+.qItem{background:#fff;padding:10px;border-radius:10px;margin-bottom:8px;border:1px solid #ddd}
+.qItem b{color:#1A2A6C}
+.addBox{margin:15px;background:#F3E5F5;padding:15px;border-radius:15px;text-align:left}
+.addBox input{width:95%;padding:10px;margin:5px 0;border:1px solid #ddd;border-radius:8px;font-size:15px}
+.addBox button{background:#6A1B9A;color:#fff;border:none;padding:12px;width:100%;border-radius:10px;font-weight:bold;font-size:16px}
+.grid{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;padding:15px}
+.pill{width:140px;padding:13px;border-radius:25px;color:#fff;font-weight:bold;text-decoration:none}
 </style>
 </head>
 <body>
-<div class="top"><span>Gmail</span><span>Images</span><span>⋮</span><b>B</b></div>
-
 <div class="logo"><span>B</span><span>h</span><span>a</span><span>r</span><span>a</span><span>t</span><span> </span><span>K</span><span>h</span><span>o</span><span>j</span></div>
 
-<form action="https://www.google.com/search" method="GET" id="f">
-<div class="search"><span>🔍</span><input type="text" name="q" id="inp" placeholder="Yaha puchho..." required><span class="mic">🎙️</span><span class="cam">📷</span></div>
-<div class="btns"><button type="submit">Bharat Khoj Search</button><button type="button">I'm Feeling Lucky</button></div>
-</form>
+<div class="search"><span>🔍</span><input id="inp" placeholder="Yaha puchho..."><button class="mic" onclick="startVoice()">🎙️</button></div>
+<div class="btns"><button onclick="khoj()">Bharat Khoj Search</button><button onclick="location.href='https://www.google.com/search?q='+document.getElementById('inp').value">Google Pe Dekho</button></div>
+
+<div id="ans" class="answerBox">
+<b>✅ Bharat Khoj ka Jawab:</b><br><br>
+<span id="ansText"></span><br><br>
+<small>Ye jawab pehle kisi ne pucha tha, isliye maine save karke rakha tha!</small>
+</div>
 
 <div class="grid">
-<a class="pill" href="https://mausam.imd.gov.in/" style="background:#FF9F00;">☀️ Mausam</a>
-<a class="pill" href="https://www.aajtak.in/" style="background:#0091FF;">📰 News</a>
-<a class="pill" href="https://agmarknet.gov.in/" style="background:#00A651;">🌱 Krishi</a>
-<a class="pill" href="https://www.cricbuzz.com/" style="background:#FF2D2D;">🏏 Cricket</a>
-<a class="pill" href="https://www.sarkariresult.com/" style="background:#9B30FF;">💼 Naukri</a>
-<a class="pill" href="https://www.irctc.co.in/" style="background:#00A99D;">🚆 Train</a>
-<a class="pill" href="https://agmarknet.gov.in/" style="background:#FFC700;color:#000;">🏪 Mandi</a>
-<a class="pill" href="https://bihar.gov.in/" style="background:#1A2A6C;">🏛️ Bihar Sarkar</a>
-<a class="pill" href="https://www.youtube.com/" style="background:#FF0000;">▶️ YouTube</a>
-<a class="pill" href="https://www.goodreturns.in/gold-rates/" style="background:#FFA500;">🪙 Sona Bhav</a>
+<a class="pill" href="#" onclick="pucho('Khagaria ka mausam')" style="background:#FF9F00;">☀️ Mausam</a>
+<a class="pill" href="#" onclick="pucho('Khagaria mandi bhav')" style="background:#00A651;">🌱 Mandi Bhav</a>
+<a class="pill" href="#" onclick="pucho('Aaj sona ka bhav')" style="background:#FFA500;">🪙 Sona Bhav</a>
+<a class="pill" href="#" onclick="pucho('Bihar sarkari yojana')" style="background:#1A2A6C;">🏛️ Yojana</a>
 </div>
 
-<div class="visitors">
-<div class="row"><span>👁️ Total Visitors</span><b id="v">1253</b></div>
-<div class="row"><span>📲 Total Installs</span><b>751</b></div>
-<div class="live">🔴 Live: 2 log abhi dekh rahe hain</div>
-<div class="small">Updated just now • Real-time analytics</div>
+<div class="savedBox">
+<h3>🧠 Bharat Khoj ne ab tak <span id="totalQ">0</span> Sawal-Jawab Save kiye!</h3>
+<div id="list"></div>
 </div>
 
-<script>
-let c = localStorage.getItem("bk_visit") || 1253;
-c = parseInt(c)+1;
-localStorage.setItem("bk_visit", c);
-document.getElementById("v").innerText = c;
-</script>
-</body>
-  </html>
+<div class="addBox">
+<h3>➕ Naya
