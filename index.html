@@ -60,7 +60,7 @@ async function saveToFirebase(q,a){
 }
 
 async function askGemini(qu){
-  let res = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key="+GEMINI_KEY,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({contents:[{parts:[{text:"Iska jawab Hindi me, 2-3 line me do: "+qu}]}]})});
+  gemini-2.0-flash
   let data = await res.json();
   return data.candidates[0].content.parts[0].text;
 }
