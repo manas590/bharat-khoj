@@ -99,6 +99,7 @@ body:JSON.stringify({contents:[{parts:[{text:qu}]}]})
 
   
   let data=await res.json();
+  let ans=data.candidates[0].content.parts[0].text;
 if(data.error){document.getElementById('results').innerHTML='<div class="card"><h3>❌ Error: '+data.error.message+'</h3></div>';return;}let ans=data.candidates[0].content.parts[0].text;
 saved.push({q:qu,a:ans});
 localStorage.setItem("savedQA",JSON.stringify(saved));
