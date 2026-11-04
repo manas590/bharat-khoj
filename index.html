@@ -1,51 +1,27 @@
-<!DOCTYPE html>
-<html lang="hi">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bharat Khoj</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
-body{background:#fff;display:flex;flex-direction:column;align-items:center;padding:15px}
-.logo{font-size:52px;font-weight:900;margin:20px 0}
-.logo b:nth-child(1){color:#4285F4} .logo b:nth-child(2){color:#EA4335}
-.logo b:nth-child(3){color:#FBBC05} .logo b:nth-child(4){color:#4285F4}
-.logo b:nth-child(5){color:#34A853} .logo b:nth-child(6){color:#EA4335}
-.logo b:nth-child(7){color:#4285F4} .logo b:nth-child(8){color:#EA4335}
-.logo b:nth-child(9){color:#FBBC05} .logo b:nth-child(10){color:#4285F4}
-.search-wrap{width:95%;max-width:600px;border:1px solid #dfe1e5;border-radius:28px;padding:14px 18px;display:flex;box-shadow:0 1px 5px #ccc}
-.search-wrap input{flex:1;border:none;outline:none;font-size:18px;margin-left:10px}
-.chips{width:98%;max-width:750px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:25px}
-.chip{padding:13px 22px;border-radius:28px;font-weight:700;font-size:16px;color:#fff;border:none;cursor:pointer;box-shadow:0 3px 8px rgba(0,0,0,.2)}
-.counter{margin-top:22px;background:linear-gradient(90deg,#1e3a8a,#7c3aed);color:#fff;padding:14px 25px;border-radius:12px;text-align:center;min-width:280px}
-.c1{background:linear-gradient(135deg,#ff8c00,#ffb300)} .c2{background:linear-gradient(135deg,#1e90ff,#0066ff)}
-.c3{background:linear-gradient(135deg,#22c55e,#16a34a)} .c4{background:linear-gradient(135deg,#ef4444,#dc2626)}
-.c5{background:linear-gradient(135deg,#a855f7,#7e22ce)} .c6{background:linear-gradient(135deg,#14b8a6,#0d9488)}
-.c7{background:linear-gradient(135deg,#facc15,#eab308);color:#333} .c8{background:linear-gradient(135deg,#1e3a8a,#172554)}
-.c9{background:linear-gradient(135deg,#ff0000,#cc0000)} .c10{background:linear-gradient(135deg,#fbbf24,#d97706);color:#333}
-</style>
-</head>
-<body>
-<div class="logo"><b>B</b><b>h</b><b>a</b><b>r</b><b>a</b><b>t</b><b> </b><b>K</b><b>h</b><b>o</b><b>j</b></div>
-<div class="search-wrap">🔍<input id="q" placeholder="Khojo kuch bhi..."></div>
-<div class="chips">
-<button class="chip c1" onclick="window.open('https://www.google.com/search?q=Patna+mausam','_blank')">☀️ Mausam</button>
-<button class="chip c2" onclick="window.open('https://news.google.com/?hl=hi&gl=IN&ceid=IN:hi','_blank')">📰 News</button>
-<button class="chip c3" onclick="window.open('https://pmkisan.gov.in/','_blank')">🌱 Krishi</button>
-<button class="chip c4" onclick="window.open('https://www.cricbuzz.com/','_blank')">🏏 Cricket</button>
-<button class="chip c5" onclick="window.open('https://www.sarkariresult.com.cm/','_blank')">💼 Naukri</button>
-<button class="chip c6" onclick="window.open('https://www.irctc.co.in/','_blank')">🚆 Train</button>
-<button class="chip c7" onclick="window.open('https://enam.gov.in/','_blank')">🏪 Mandi</button>
-<button class="chip c8" onclick="window.open('https://state.bihar.gov.in/','_blank')">🏛️ Bihar Sarkar</button>
-<button class="chip c9" onclick="window.open('https://www.youtube.com/','_blank')">▶️ YouTube</button>
-<button class="chip c10" onclick="window.open('https://www.google.com/search?q=gold+price+today+Patna','_blank')">🪙 Sona Bhav</button>
+<!-- SAVE + TRENDING SYSTEM START -->
+<div style="text-align:center; margin-top:20px;">
+<h3>🔥 Log Aaj Kya Puch Rahe Hai</h3>
+<div id="trending"></div>
+<p style="font-size:13px; color:grey;">Tum jo puchoge wo yaha SAVE ho jayega</p>
 </div>
-<div class="counter" id="countBox">Loading...</div>
+
 <script>
-fetch('https://api.countapi.xyz/hit/manas90-bharat-khoj-v2/main').then(r=>r.json()).then(d=>{
-let inst=Math.floor(d.value*0.6);
-document.getElementById('countBox').innerHTML='👁️ Total Visitors: '+d.value+' <br> 📲 Total Installs: '+inst+' <br> 🔴 Live: 2 log dekh rahe hain';
+// Pehle se Khagaria ke famous sawal
+let saved = JSON.parse(localStorage.getItem("bharat_search") || '["Khagaria ka mausam","Dhan ka bhav aaj","Khagaria se Patna train","Aaj ki naukri"]');
+
+function showTrending(){
+  document.getElementById("trending").innerHTML = saved.map(s=>`<button onclick="document.querySelector('input').value='${s}';document.querySelector('form').submit()" style="margin:4px;padding:8px 14px;border-radius:20px;border:1px solid #ccc;background:white;cursor:pointer;">${s}</button>`).join("");
+}
+showTrending();
+
+// Jab koi search karega to SAVE ho jayega
+document.querySelector("form").addEventListener("submit", function(){
+  let q = document.querySelector("input").value;
+  if(q && !saved.includes(q)){
+    saved.unshift(q);
+    saved = saved.slice(0,8);
+    localStorage.setItem("bharat_search", JSON.stringify(saved));
+  }
 });
 </script>
-</body>
-</html>
+<!-- SAVE SYSTEM END -->
