@@ -7,7 +7,7 @@
 <style>
 *{box-sizing:border-box}
 body{font-family:Arial;text-align:center;margin:0;padding:15px;background:#fff}
-.logo{font-size:55px;font-weight:900;margin-top:35px;line-height:1.1}
+.logo{font-size:55px;font-weight:900;margin-top:35px}
 .logo b{color:#ff6f00} .logo i{color:#0a58ca;font-style:normal}
 .sub{font-size:20px;margin:22px 0}
 input{width:96%;max-width:580px;padding:17px 22px;border-radius:30px;border:1px solid #ddd;font-size:19px;box-shadow:0 2px 10px #eee;outline:none}
@@ -15,11 +15,12 @@ input{width:96%;max-width:580px;padding:17px 22px;border-radius:30px;border:1px 
 .blue{background:#0a58ca} .orange{background:#ff6f00} .green{background:#0a8a3a;padding:14px 42px}
 .card{text-align:left;max-width:620px;margin:15px auto;padding:15px;border:1px solid #eee;border-radius:14px;background:#fff;box-shadow:0 2px 8px #f0f0f0}
 .card a{color:#0a58ca;text-decoration:none;font-size:16px}
-.card p{font-size:15px;color:#444}
+.card p{font-size:15px;color:#444;line-height:1.6}
 .small{font-size:13px;color:green}
 .top{max-width:620px;margin:15px auto;text-align:left}
 .savedItem{background:#f8f8f8;border:1px solid #eee;padding:11px;border-radius:10px;margin:6px 0;cursor:pointer;text-align:left;font-size:14px}
 .savedItem b{color:#0a58ca}
+.aiImg{width:100%;border-radius:10px;margin:10px 0}
 </style>
 </head>
 <body>
@@ -27,7 +28,7 @@ input{width:96%;max-width:580px;padding:17px 22px;border-radius:30px;border:1px 
 <div class="logo"><b>भारत</b> <i>Khoj</i></div>
 <div class="sub">Desi Google - हिंदी में खोजो</div>
 
-<input id="q" type="text" placeholder="जैसे: पटना में सरकारी नौकरी" onkeydown="if(event.key==='Enter')khoj()">
+<input id="q" type="text" placeholder="Kuch bhi pucho... jaise: Duniya ka sabse bada desh" onkeydown="if(event.key==='Enter')khoj()">
 <br>
 <button class="btn blue" onclick="khoj()">Khoj करो 🔍</button>
 <button class="btn orange" onclick="aiKhoj()">AI से पूछो ✨</button>
@@ -40,125 +41,136 @@ input{width:96%;max-width:580px;padding:17px 22px;border-radius:30px;border:1px 
 <script>
 let saved = JSON.parse(localStorage.getItem("bharat_qa") || "[]");
 showSaved();
-
 function getQ(){ return document.getElementById('q').value.trim(); }
 
-// ===== 1. KHOJ WALA BUTTON =====
-function khoj(){
+// ===== SMART AI - Wikipedia se Sahi Jawab laayega =====
+async function getRealAnswer(qu){
+  // 1. Pehle apne GK se check karo - 100% Sahi
+  let gk = {
+    "duniya ka sabse bada desh":"Duniya ka sabse bada desh Russia hai. Iska kshetrafal 1.7 Crore sq km se jyada hai. Dusre number par Canada aur teesre par China hai.",
+    "duniya ka sabse bra desh":"Duniya ka sabse bada desh Russia hai. Iska kshetrafal 1.7 Crore sq km se jyada hai.",
+    "bharat ki rajdhani":"Bharat ki Rajdhani New Delhi hai.",
+    "bihar ki rajdhani":"Bihar ki Rajdhani Patna hai.",
+    "bihar ka mukhyamantri":"Bihar ke Mukhyamantri Nitish Kumar hai.",
+    "bharat ka pm":"Bharat ke Pradhan Mantri Narendra Modi hai.",
+    "bharat ka rashtrapati":"Bharat ke Rashtrapati Droupadi Murmu hai.",
+    "duniya ka sabse bada mahasagar":"Duniya ka sabse bada Mahasagar Prashant Mahasagar (Pacific Ocean) hai.",
+    "taj mahal kaha hai":"Taj Mahal Agra, Uttar Pradesh me hai. Ise Shahjahan ne banwaya tha.",
+    "patna me naukri":"Patna me naukri ke liye BPSC, Bihar Police, Bihar SSC ki taiyari karo. Sarkari site bpsc.bihar.gov.in par form aata hai.",
+    "duniya ki sabse lambi nadi":"Duniya ki sabse lambi Nadi Nile Nadi hai, jo 6650 km lambi hai.",
+    "chand par pehla aadmi":"Chand par pehla aadmi Neil Armstrong tha, 1969 me gaye the.",
+    "bharat ka sabse bada rajya":"Bharat ka sabse bada Rajya Rajasthan hai kshetrafal me, aur sabse jyada aabadi Uttar Pradesh me hai.",
+    "sone ka bhav":"Aaj ka Sone ka bhav jaanne ke liye Google par 'Aaj ka sone ka bhav' search karo, roz badalta hai."
+  };
+  let key = qu.toLowerCase().trim();
+  for(let k in gk){ if(key.includes(k) || k.includes(key)) return {text:gk[k], source:"Bharat Khoj GK"}; }
+
+  // 2. Agar GK me nahi hai to Wikipedia se Live laao
+  try{
+    let searchWord = qu.replace(/kya hai|kaun hai|kaha hai|kaise|batao|\?/gi,"").trim();
+    let url = "https://hi.wikipedia.org/api/rest_v1/page/summary/" + encodeURIComponent(searchWord);
+    let res = await fetch(url);
+    let data = await res.json();
+    if(data.extract){
+      return {text: data.extract.substring(0,800), source:"Wikipedia se", img: data.thumbnail ? data.thumbnail.source : ""};
+    }
+    // English Wikipedia try karo
+    let res2 = await fetch("https://en.wikipedia.org/api/rest_v1/page/summary/" + encodeURIComponent(searchWord));
+    let data2 = await res2.json();
+    if(data2.extract){
+      return {text: data2.extract.substring(0,800), source:"Wikipedia English se", img: data2.thumbnail ? data2.thumbnail.source : ""};
+    }
+  }catch(e){}
+
+  // 3. Agar kuch nahi mila to Google wala Jawab
+  return {text: qu + " ke baare me poori jaankari Google par milegi. Wikipedia me iska page nahi mila, isliye neeche diye 10 Website me dekho. Tumhara Question Save ho gaya hai.", source:"Google"};
+}
+
+// ===== KHOJ BUTTON =====
+async function khoj(){
   let qu = getQ();
   if(!qu){alert('Pehle Question likho!');return;}
-
-  // Check karo - kya ye Question pehle se Save hai?
   let old = saved.find(x => x.q.toLowerCase() === qu.toLowerCase());
   if(old){
-    // Purana hai to Google pe MAT bhejo, seedha Bharat Khoj se Answer dikhao
-    document.getElementById('results').innerHTML = `
-    <div class="card" style="background:#f0f7ff">
-      <h3>💾 Bharat Khoj se Jawab (Pehle se Save tha)</h3>
-      <p><b>Q:</b> ${old.q}</p>
-      <p><b>A:</b> ${old.a}</p>
-      <p style="color:green">✅ Ye Google se liya hua Save Jawab hai</p>
-    </div>`;
-    showSaved();
+    document.getElementById('results').innerHTML = `<div class="card" style="background:#f0f7ff"><h3>💾 Bharat Khoj se Jawab</h3><p><b>Q:</b> ${old.q}</p><p><b>A:</b> ${old.a}</p></div>`;
     return;
   }
-
-  // Naya hai to - 1. Google par bhejo
   window.open('https://www.google.com/search?q='+encodeURIComponent(qu),'_blank');
-
-  // 2. Bharat Khoj me bhi Q + A Save karo
-  let ans = qu + " ke baare me - Bihar Sarkar Yojana, Patna / Darbhanga me kaha milega, Form kaise bharna hai, Document kya lagega - sab jaankari Google se lekar yaha Save ho gayi hai. Neeche 10 Website me poora detail hai.";
-  saved.unshift({q:qu, a:ans});
+  document.getElementById('results').innerHTML = `<div class="card"><h3>🔍 Dhoondh rahe hai...</h3><p>Google par khul gaya hai, Bharat Khoj me bhi Jawab aa raha hai...</p></div>`;
+  let real = await getRealAnswer(qu);
+  saved.unshift({q:qu, a:real.text});
   localStorage.setItem("bharat_qa", JSON.stringify(saved));
-
-  // 3. Neeche 10 Website + Answer dikhao
   let sites = [
     ["Wikipedia - "+qu, "https://hi.wikipedia.org/wiki/"+encodeURIComponent(qu)],
-    ["Bihar Sarkar - "+qu, "https://www.google.com/search?q="+encodeURIComponent(qu+" bihar sarkar")],
-    ["Sarkari Result - "+qu, "https://www.google.com/search?q="+encodeURIComponent(qu+" sarkari result")],
+    ["Bihar Sarkar - "+qu, "https://www.google.com/search?q="+encodeURIComponent(qu+" bihar")],
+    ["Sarkari Result - "+qu, "https://www.google.com/search?q="+encodeURIComponent(qu+" sarkari")],
     ["Patna News - "+qu, "https://www.google.com/search?q="+encodeURIComponent(qu+" patna news")],
-    ["Krishi Yojana - "+qu, "https://www.google.com/search?q="+encodeURIComponent(qu+" krishi")],
-    ["Job - "+qu, "https://www.google.com/search?q="+encodeURIComponent(qu+" job")],
     ["YouTube - "+qu, "https://www.youtube.com/results?search_query="+encodeURIComponent(qu)],
-    ["Maps - "+qu, "https://www.google.com/maps/search/"+encodeURIComponent(qu+" Patna")],
-    ["Mausam - "+qu, "https://www.google.com/search?q="+encodeURIComponent(qu+" mausam")],
+    ["Maps - "+qu, "https://www.google.com/maps/search/"+encodeURIComponent(qu)],
     ["Google - "+qu, "https://www.google.com/search?q="+encodeURIComponent(qu)]
   ];
-  let html = `<div class="card" style="background:#f0f7ff"><h3>🔍 Tumne pucha: ${qu}</h3><p><b>Jawab:</b> ${ans}</p><p style="color:green">✅ Google par bhi khul gaya + Bharat Khoj me bhi Save ho gaya!</p></div>`;
-  sites.forEach((s,i)=>{
-    html += `<div class="card"><a href="${s[1]}" target="_blank">${i+1}. ${s[0]} ↗</a><p class="small">${s[1].substring(0,60)}...</p></div>`;
-  });
+  let html = `<div class="card" style="background:#f0f7ff"><h3>🔍 Tumne pucha: ${qu}</h3><p><b>Jawab (${real.source}):</b> ${real.text}</p><p style="color:green">✅ Google par bhi khula + Save bhi ho gaya!</p></div>`;
+  if(real.img) html += `<div class="card"><img class="aiImg" src="${real.img}"></div>`;
+  sites.forEach((s,i)=>{ html += `<div class="card"><a href="${s[1]}" target="_blank">${i+1}. ${s[0]} ↗</a></div>`; });
   document.getElementById('results').innerHTML = html;
   showSaved();
 }
 
-// ===== 2. AI WALA BUTTON =====
-function aiKhoj(){
+// ===== AI BUTTON - AB SAB SAHI JAWAB DEGA =====
+async function aiKhoj(){
   let qu = getQ();
   if(!qu){alert('Pehle Question likho!');return;}
-
   let old = saved.find(x => x.q.toLowerCase() === qu.toLowerCase());
   if(old){
     document.getElementById('results').innerHTML = `<div class="card" style="background:#fff4e5"><h3>🤖 Bharat AI - Save se Jawab</h3><p><b>Q:</b> ${old.q}</p><p><b>A:</b> ${old.a}</p></div>`;
     return;
   }
-
-  let ans = qu + " ka AI Jawab - Ye Bihar ke liye bahut jaroori hai. 1. Sarkari site par form bharo 2. Document rakho 3. Patna / Darbhanga office me jama karo. Poori jaankari Google se bhi dekh sakte ho.";
-  saved.unshift({q:qu, a:ans});
+  document.getElementById('results').innerHTML = `<div class="card"><h3>🤖 AI Soch raha hai...</h3><p>${qu} ka Sahi Jawab Wikipedia se la rahe hai, 2 second ruko...</p></div>`;
+  let real = await getRealAnswer(qu);
+  saved.unshift({q:qu, a:real.text});
   localStorage.setItem("bharat_qa", JSON.stringify(saved));
-
+  let imgHtml = real.img ? `<img class="aiImg" src="${real.img}">` : "";
   document.getElementById('results').innerHTML = `
   <div class="card" style="background:#fff4e5">
     <h3>🤖 Bharat AI Jawab</h3>
     <p><b>Q:</b> ${qu}</p>
-    <p><b>A:</b> ${ans}</p>
+    <p><b>A:</b> ${real.text}</p>
+    <p style="font-size:12px;color:#888">Source: ${real.source}</p>
+    ${imgHtml}
     <button class="btn blue" onclick="khoj()">Google par bhi dekho</button>
     <p style="color:green">✅ Ye Q + A Save ho gaya!</p>
   </div>`;
   showSaved();
 }
 
-// ===== 3. SAVE WALA BUTTON - Mrb =====
 function saveKaro(){
   let qu = getQ();
-  if(!qu){alert('Save karne ke liye pehle Question likho!');return;}
+  if(!qu){alert('Pehle Question likho!');return;}
   var p = prompt("Password Daalo - Sirf Admin");
-  if(p !== "Mrb"){alert("Galat Password! Save nahi hoga.");return;}
+  if(p !== "Mrb"){alert("Galat Password!");return;}
   let old = saved.find(x => x.q.toLowerCase() === qu.toLowerCase());
-  if(!old){
-    saved.unshift({q:qu, a:qu + " - Admin ne Mrb se Save kiya."});
-    localStorage.setItem("bharat_qa", JSON.stringify(saved));
-  }
-  showSaved();
-  alert("Save Ho Gaya! ✅");
+  if(!old){ saved.unshift({q:qu, a:qu+" - Admin ne Mrb se Save kiya."}); localStorage.setItem("bharat_qa", JSON.stringify(saved)); }
+  showSaved(); alert("Save Ho Gaya! ✅");
 }
-
 function showSaved(){
-  if(saved.length==0){
-    document.getElementById('savedBox').innerHTML = "";
-    return;
-  }
-  let h = `<h3>💾 Save Hue Question-Answer (${saved.length})</h3><p style="font-size:13px;color:#666">Inko dabao to seedha Bharat Khoj se Answer khulega, Google pe nahi jayega:</p>`;
-  saved.forEach(s=>{
-    h += `<div class="savedItem" onclick="openSaved('${s.q.replace(/'/g,"")}')"><b>Q: ${s.q}</b><br>A: ${s.a.substring(0,100)}...</div>`;
-  });
+  if(saved.length==0){document.getElementById('savedBox').innerHTML="";return;}
+  let h = `<h3>💾 Save Hue Question-Answer (${saved.length})</h3>`;
+  saved.forEach(s=>{ h += `<div class="savedItem" onclick="openSaved('${s.q.replace(/'/g,"")}')"><b>Q: ${s.q}</b><br>A: ${s.a.substring(0,120)}...</div>`; });
   h += `<button class="btn" style="background:#555;padding:10px 20px;font-size:14px" onclick="clearAll()">Sab Clear Karo (Mrb)</button>`;
   document.getElementById('savedBox').innerHTML = h;
 }
-
 function openSaved(qu){
   document.getElementById('q').value = qu;
   let f = saved.find(x => x.q === qu);
   document.getElementById('results').innerHTML = `<div class="card" style="background:#f0f7ff"><h3>💾 Bharat Khoj se</h3><p><b>Q:</b> ${f.q}</p><p><b>A:</b> ${f.a}</p></div>`;
   window.scrollTo(0,350);
 }
-
 function clearAll(){
-  var p = prompt("Clear karne ke liye Password Daalo");
-  if(p !== "Mrb"){alert("Galat Password");return;}
-  saved = []; localStorage.removeItem("bharat_qa");
-  showSaved(); alert("Clear ho gaya");
+  var p = prompt("Password Daalo"); if(p!=="Mrb"){alert("Galat Password");return;}
+  saved=[]; localStorage.removeItem("bharat_qa"); showSaved(); alert("Clear ho gaya");
 }
 </script>
 </body>
 </html>
+  <html>  
+    
