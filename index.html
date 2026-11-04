@@ -7,7 +7,7 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
 body{background:#fff;display:flex;flex-direction:column;align-items:center;padding:15px}
-.logo{font-size:50px;font-weight:900;margin:20px 0}
+.logo{font-size:52px;font-weight:900;margin:20px 0}
 .logo b:nth-child(1){color:#4285F4} .logo b:nth-child(2){color:#EA4335}
 .logo b:nth-child(3){color:#FBBC05} .logo b:nth-child(4){color:#4285F4}
 .logo b:nth-child(5){color:#34A853} .logo b:nth-child(6){color:#EA4335}
@@ -26,34 +26,26 @@ body{background:#fff;display:flex;flex-direction:column;align-items:center;paddi
 </style>
 </head>
 <body>
-
-<div class="logo">
-<b>B</b><b>h</b><b>a</b><b>r</b><b>a</b><b>t</b><b> </b><b>K</b><b>h</b><b>o</b><b>j</b>
-</div>
-
+<div class="logo"><b>B</b><b>h</b><b>a</b><b>r</b><b>a</b><b>t</b><b> </b><b>K</b><b>h</b><b>o</b><b>j</b></div>
 <div class="search-wrap">🔍<input id="q" placeholder="Khojo kuch bhi..."></div>
-
 <div class="chips">
-<button class="chip c1" onclick="openLink('https://www.google.com/search?q=Patna+mausam+aaj')">☀️ Mausam</button>
-<button class="chip c2" onclick="openLink('https://news.google.com/?hl=hi&gl=IN&ceid=IN:hi')">📰 News</button>
-<button class="chip c3" onclick="openLink('https://pmkisan.gov.in/')">🌱 Krishi</button>
-<button class="chip c4" onclick="openLink('https://www.cricbuzz.com/')">🏏 Cricket</button>
-<button class="chip c5" onclick="openLink('https://www.sarkariresult.com.cm/')">💼 Naukri</button>
-<button class="chip c6" onclick="openLink('https://www.irctc.co.in/')">🚆 Train</button>
-<button class="chip c7" onclick="openLink('https://enam.gov.in/')">🏪 Mandi</button>
-<button class="chip c8" onclick="openLink('https://state.bihar.gov.in/')">🏛️ Bihar Sarkar</button>
-<button class="chip c9" onclick="openLink('https://www.youtube.com/')">▶️ YouTube</button>
-<button class="chip c10" onclick="openLink('https://www.google.com/search?q=gold+price+today+Patna')">🪙 Sona Bhav</button>
+<button class="chip c1" onclick="window.open('https://www.google.com/search?q=Patna+mausam','_blank')">☀️ Mausam</button>
+<button class="chip c2" onclick="window.open('https://news.google.com/?hl=hi&gl=IN&ceid=IN:hi','_blank')">📰 News</button>
+<button class="chip c3" onclick="window.open('https://pmkisan.gov.in/','_blank')">🌱 Krishi</button>
+<button class="chip c4" onclick="window.open('https://www.cricbuzz.com/','_blank')">🏏 Cricket</button>
+<button class="chip c5" onclick="window.open('https://www.sarkariresult.com.cm/','_blank')">💼 Naukri</button>
+<button class="chip c6" onclick="window.open('https://www.irctc.co.in/','_blank')">🚆 Train</button>
+<button class="chip c7" onclick="window.open('https://enam.gov.in/','_blank')">🏪 Mandi</button>
+<button class="chip c8" onclick="window.open('https://state.bihar.gov.in/','_blank')">🏛️ Bihar Sarkar</button>
+<button class="chip c9" onclick="window.open('https://www.youtube.com/','_blank')">▶️ YouTube</button>
+<button class="chip c10" onclick="window.open('https://www.google.com/search?q=gold+price+today+Patna','_blank')">🪙 Sona Bhav</button>
 </div>
-
 <div class="counter" id="countBox">Loading...</div>
-
 <script>
-function openLink(url){ window.open(url, '_blank'); }
-fetch('https://api.countapi.xyz/hit/manas90-bharat-khoj-v2/main')
-.then(r=>r.json()).then(d=>{
-  let inst=Math.floor(d.value*0.6);
-  document.getElementById('countBox').innerHTML=`👁️ Total Visitors: ${d.value} <br> 📲 Total Installs: ${inst} <br> 🔴 Live: ${Math.floor(Math.random()*4)+1} log abhi dekh rahe hain`;
+fetch('https://api.countapi.xyz/hit/manas90-bharat-khoj-v2/main').then(r=>r.json()).then(d=>{
+let inst=Math.floor(d.value*0.6);
+document.getElementById('countBox').innerHTML='👁️ Total Visitors: '+d.value+' <br> 📲 Total Installs: '+inst+' <br> 🔴 Live: 2 log dekh rahe hain';
 });
 </script>
 </body>
+</html>
