@@ -1,27 +1,50 @@
-<!-- SAVE + TRENDING SYSTEM START -->
-<div style="text-align:center; margin-top:20px;">
-<h3>🔥 Log Aaj Kya Puch Rahe Hai</h3>
-<div id="trending"></div>
-<p style="font-size:13px; color:grey;">Tum jo puchoge wo yaha SAVE ho jayega</p>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bharat Khoj</title>
+<style>
+body{margin:0;font-family:Arial;text-align:center}
+.logo{font-size:48px;font-weight:bold;margin-top:25px}
+input{width:90%;max-width:480px;padding:13px 18px;border-radius:25px;border:1px solid #ccc;font-size:16px;margin-top:20px}
+button{padding:10px 18px;margin:5px;border:1px solid #ddd;background:#f8f9fa;border-radius:6px}
+.grid{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;padding:12px}
+.card{width:100px;padding:10px;border:1px solid #eee;border-radius:10px;text-decoration:none;color:#000}
+.trend button{border-radius:20px;background:#fff;padding:8px 13px}
+</style>
+</head>
+<body>
+<div class="logo">Bharat Khoj</div>
+<p>Khagaria Ka Apna Search Engine</p>
+<form action="https://www.google.com/search" method="GET" id="f">
+<input type="text" name="q" id="inp" placeholder="Yaha puchho... Mausam, Train, Naukri" required>
+<br><button type="submit">Search</button>
+</form>
+<h3>Jaldi Khojo</h3>
+<div class="grid">
+<a class="card" href="https://mausam.imd.gov.in/" target="_blank">Mausam</a>
+<a class="card" href="https://www.cricbuzz.com/" target="_blank">Cricket</a>
+<a class="card" href="https://www.irctc.co.in/" target="_blank">Train</a>
+<a class="card" href="https://agmarknet.gov.in/" target="_blank">Mandi Bhav</a>
+<a class="card" href="https://www.sarkariresult.com/" target="_blank">Naukri</a>
+<a class="card" href="https://www.youtube.com/" target="_blank">Video</a>
+<a class="card" href="https://www.aajtak.in/" target="_blank">News</a>
+<a class="card" href="https://pmkisan.gov.in/" target="_blank">PM Kisan</a>
+<a class="card" href="https://www.flipkart.com/" target="_blank">Shopping</a>
+<a class="card" href="https://translate.google.com/" target="_blank">Translate</a>
 </div>
-
+<h3>Log Aaj Kya Puch Rahe Hai</h3>
+<div id="trending" class="trend"></div>
+<p style="font-size:12px;color:grey;">Tum jo puchoge wo yaha SAVE ho jayega</p>
 <script>
-// Pehle se Khagaria ke famous sawal
-let saved = JSON.parse(localStorage.getItem("bharat_search") || '["Khagaria ka mausam","Dhan ka bhav aaj","Khagaria se Patna train","Aaj ki naukri"]');
-
-function showTrending(){
-  document.getElementById("trending").innerHTML = saved.map(s=>`<button onclick="document.querySelector('input').value='${s}';document.querySelector('form').submit()" style="margin:4px;padding:8px 14px;border-radius:20px;border:1px solid #ccc;background:white;cursor:pointer;">${s}</button>`).join("");
-}
-showTrending();
-
-// Jab koi search karega to SAVE ho jayega
-document.querySelector("form").addEventListener("submit", function(){
-  let q = document.querySelector("input").value;
-  if(q && !saved.includes(q)){
-    saved.unshift(q);
-    saved = saved.slice(0,8);
-    localStorage.setItem("bharat_search", JSON.stringify(saved));
-  }
+let saved = JSON.parse(localStorage.getItem("bharat_search") || '["Khagaria ka mausam","Dhan ka bhav aaj","Khagaria se Patna train"]');
+function show(){document.getElementById("trending").innerHTML = saved.map(s=>`<button onclick="document.getElementById('inp').value='${s}';document.getElementById('f').submit()">${s}</button>`).join("");}
+show();
+document.getElementById("f").addEventListener("submit", function(){
+let q=document.getElementById("inp").value.trim();
+if(q && !saved.includes(q)){saved.unshift(q);saved=saved.slice(0,8);localStorage.setItem("bharat_search",JSON.stringify(saved));}
 });
 </script>
-<!-- SAVE SYSTEM END -->
+</body>
+  </html>
