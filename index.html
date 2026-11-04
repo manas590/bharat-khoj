@@ -95,7 +95,7 @@ method:'POST',
 headers:{'Content-Type':'application/json'},
 body:JSON.stringify({contents:[{parts:[{text:qu}]}]})
 });;
-}
+  }
 let ans=data.candidates[0].content.parts[0].text;
 saved.push({q:qu,a:ans});
 localStorage.setItem("savedQA",JSON.stringify(saved));
