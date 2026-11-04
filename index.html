@@ -2,112 +2,54 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bharat Khoj - Apna Google</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bharat Khoj</title>
 <style>
-body{margin:0;font-family:Arial;text-align:center;background:white}
-.logo{font-size:55px;font-weight:900;margin-top:25px}
-.logo span:nth-child(1){color:#4285F4}.logo span:nth-child(2){color:#EA4335}.logo span:nth-child(3){color:#FBBC05}.logo span:nth-child(4){color:#4285F4}.logo span:nth-child(5){color:#34A853}.logo span:nth-child(6){color:#EA4335}.logo span:nth-child(7){color:#4285F4}.logo span:nth-child(8){color:#FBBC05}.logo span:nth-child(9){color:#4285F4}.logo span:nth-child(10){color:#000}
-.search{margin:20px 15px;display:flex;align-items:center;border:1px solid #ddd;border-radius:35px;padding:12px 15px;box-shadow:0 3px 12px #ddd;gap:10px}
-.search input{flex:1;border:none;outline:none;font-size:18px}
-.mic{background:#FF5722;color:#fff;width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;border:none}
-.btns{display:flex;justify-content:center;gap:10px}
-.btns button{padding:13px 20px;background:#1A2A6C;color:#fff;border:none;border-radius:12px;font-weight:bold}
-.answerBox{margin:15px;text-align:left;background:#E8F5E9;border:2px solid #00A651;border-radius:15px;padding:15px;display:none}
-.answerBox b{color:#00A651;font-size:18px}
-.savedBox{margin:15px;text-align:left;background:#FFF3E0;border-radius:15px;padding:15px}
-.savedBox h3{margin:0 0 10px}
-.qItem{background:#fff;padding:10px;border-radius:10px;margin-bottom:8px;border:1px solid #ddd}
-.qItem b{color:#1A2A6C}
-.addBox{margin:15px;background:#F3E5F5;padding:15px;border-radius:15px;text-align:left}
-.addBox input{width:95%;padding:10px;margin:5px 0;border:1px solid #ddd;border-radius:8px;font-size:15px}
-.addBox button{background:#6A1B9A;color:#fff;border:none;padding:12px;width:100%;border-radius:10px;font-weight:bold;font-size:16px}
-.grid{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;padding:15px}
-.pill{width:140px;padding:13px;border-radius:25px;color:#fff;font-weight:bold;text-decoration:none}
+body{font-family:Arial;text-align:center;padding-top:50px;background:#fefefe}
+.logo{font-size:50px;font-weight:900} .logo b{color:#ff6f00} .logo i{color:#0a58ca;font-style:normal}
+input{width:92%;max-width:520px;padding:16px 20px;border-radius:30px;border:1px solid #ddd;font-size:18px;box-shadow:0 2px 10px #eee}
+.btn{margin:15px 5px;padding:12px 28px;border-radius:25px;border:none;color:white;font-size:16px;cursor:pointer}
+.blue{background:#0a58ca} .orange{background:#ff6f00} .green{background:green}
+.card{text-align:left;max-width:600px;margin:25px auto;padding:15px;border:1px solid #eee;border-radius:12px;background:white}
 </style>
 </head>
 <body>
-<div class="logo"><span>B</span><span>h</span><span>a</span><span>r</span><span>a</span><span>t</span><span> </span><span>K</span><span>h</span><span>o</span><span>j</span></div>
+<div class="logo"><b>भारत</b> <i>Khoj</i></div>
+<p>Desi Google - हिंदी में खोजो</p>
 
-<div class="search"><span>🔍</span><input id="inp" placeholder="Yaha puchho..."><button class="mic" onclick="startVoice()">🎙️</button></div>
-<div class="btns"><button onclick="khoj()">Bharat Khoj Search</button><button onclick="location.href='https://www.google.com/search?q='+document.getElementById('inp').value">Google Pe Dekho</button></div>
+<input id="q" type="text" placeholder="जैसे: पटना में सरकारी नौकरी">
+<br>
+<button class="btn blue" onclick="khoj()">Khoj करो 🔍</button>
+<button class="btn orange" onclick="aiKhoj()">AI से पूछो ✨</button>
+<br>
+<button class="btn green" onclick="saveKaro()">Save Karo 💾</button>
 
-<div id="ans" class="answerBox">
-<b>✅ Bharat Khoj ka Jawab:</b><br><br>
-<span id="ansText"></span><br><br>
-<small>Ye jawab pehle kisi ne pucha tha, isliye maine save karke rakha tha!</small>
-</div>
-
-<div class="grid">
-<a class="pill" href="#" onclick="pucho('Khagaria ka mausam')" style="background:#FF9F00;">☀️ Mausam</a>
-<a class="pill" href="#" onclick="pucho('Khagaria mandi bhav')" style="background:#00A651;">🌱 Mandi Bhav</a>
-<a class="pill" href="#" onclick="pucho('Aaj sona ka bhav')" style="background:#FFA500;">🪙 Sona Bhav</a>
-<a class="pill" href="#" onclick="pucho('Bihar sarkari yojana')" style="background:#1A2A6C;">🏛️ Yojana</a>
-</div>
-
-<div class="savedBox">
-<h3>🧠 Bharat Khoj ne ab tak <span id="totalQ">0</span> Sawal-Jawab Save kiye!</h3>
-<div id="list"></div>
-</div>
-
-<div class="addBox">
-<h3>➕ Naya Sawal-Jawab Sikhao Bharat Khoj ko!</h3>
-<input id="newQ" placeholder="Sawal likho - Jaise: Khagaria ka pin code?">
-<input id="newA" placeholder="Jawab likho - Jaise: 851204">
-<button onclick="sikhado()">✅ Save Karo - Bharat Khoj ko Sikhao</button>
-<p style="font-size:13px;color:#666">Jab koi yehi sawal puchega, Bharat Khoj khud jawab de dega, Google pe nahi jana padega!</p>
-</div>
+<div id="results"></div>
 
 <script>
-let data = JSON.parse(localStorage.getItem("bk_data") || "{}");
-if(Object.keys(data).length==0){
- data = {
-  "khagaria ka mausam": "Aaj Khagaria me Mausam saaf hai, 28°C hai. Barish ka chance kam hai.",
-  "khagaria mandi bhav": "Aaj Khagaria Mandi me Dhan - Rs 2300/quintal, Makka - Rs 2200/quintal hai.",
-  "aaj sona ka bhav": "Aaj Sona 10 gram - Rs 78,500 hai. Khagaria Sarafa Bazar ka bhav.",
-  "khagaria ka pin code": "Khagaria ka Pin Code 851204 hai.",
-  "bihar sarkari yojana": "Bihar me Mukhyamantri Kanya Utthan, PM Awas Yojana chal rahi hai. Puri jankari bihar.gov.in pe hai.",
-  "khagaria train time": "Khagaria se Patna ke liye subah 7:30, 10:15 aur sham 5:40 pe train hai."
- };
- localStorage.setItem("bk_data", JSON.stringify(data));
-}
-function showList(){
- document.getElementById("totalQ").innerText = Object.keys(data).length;
- let h="";
- for(let k in data){ h+=`<div class="qItem"><b>Q:</b> ${k}<br><b style="color:green">A:</b> ${data[k]}</div>`; }
- document.getElementById("list").innerHTML=h;
-}
-showList();
 function khoj(){
- let q = document.getElementById("inp").value.toLowerCase().trim();
- if(!q) return;
- if(data[q]){
-   document.getElementById("ans").style.display="block";
-   document.getElementById("ansText").innerText = data[q];
-   window.scrollTo(0,200);
- } else {
-   alert("Ye sawal naya hai! Google pe dekh rahe hain, jawab milte hi niche Save kar dena, agli baar Bharat Khoj khud jawab dega!");
-   window.open("https://www.google.com/search?q="+q,"_blank");
- }
+ let qu=document.getElementById('q').value.trim();
+ if(!qu){alert('कुछ लिखो पहले!');return;}
+ window.open('https://www.google.com/search?q='+encodeURIComponent(qu)+'&hl=hi','_blank');
+ document.getElementById('results').innerHTML=`<div class="card"><h3>आपने खोजा: ${qu}</h3><p>✅ Result 1: ${qu} की जानकारी हिंदी में</p><p>✅ Result 2: ${qu} बिहार सरकार योजना</p><p>✅ Result 3: ${qu} पटना में कहाँ मिलेगा</p></div>`;
 }
-function pucho(q){ document.getElementById("inp").value=q; khoj(); }
-function sikhado(){
- let q=document.getElementById("newQ").value.toLowerCase().trim();
- let a=document.getElementById("newA").value.trim();
- if(!q||!a){ alert("Sawal aur Jawab dono likho bhaiya!"); return; }
- data[q]=a;
- localStorage.setItem("bk_data", JSON.stringify(data));
- showList();
- alert("Ho gaya! Ab koi bhi ye sawal puchega to Bharat Khoj khud jawab dega!");
- document.getElementById("newQ").value=""; document.getElementById("newA").value="";
+function aiKhoj(){
+ let qu=document.getElementById('q').value.trim();
+ if(!qu){alert('कुछ लिखो!');return;}
+ document.getElementById('results').innerHTML=`<div class="card" style="background:#f0f7ff"><h3>🤖 BharatGPT जवाब</h3><p><b>सवाल:</b> ${qu}</p><p><b>जवाब:</b> ${qu} के बारे में ये जानकारी है। ये भारत का अपना देसी सर्च इंजन है जो जल्द ही भोजपुरी में भी जवाब देगा।</p><a href="https://www.google.com/search?q=${encodeURIComponent(qu)}" target="_blank">Google पर और देखो</a></div>`;
 }
-function startVoice(){
- let SR = window.SpeechRecognition || window.webkitSpeechRecognition;
- if(!SR){ alert("Chrome me kholo"); return; }
- let rec=new SR(); rec.lang="hi-IN";
- rec.onresult=function(e){ document.getElementById("inp").value=e.results[0][0].transcript; khoj(); };
- rec.start();
+
+// --- Mrb WALA TALA YAHI HAI ---
+function saveKaro(){
+  var password = prompt("Password Daalo - Sirf Admin");
+  if(password !== "Mrb"){
+    alert("Galat Password! Save nahi hoga.");
+    return;
+  }
+  var qu = document.getElementById('q').value;
+  localStorage.setItem("meraJawab", qu);
+  alert("Sahi Password! Save Ho Gaya!");
 }
 </script>
 </body>
-                            </html>
+</html>
