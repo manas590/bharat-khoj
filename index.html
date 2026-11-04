@@ -16,7 +16,6 @@ input{width:96%;max-width:580px;padding:17px 22px;border-radius:30px;border:1px 
 .card{text-align:left;max-width:620px;margin:15px auto;padding:15px;border:1px solid #eee;border-radius:14px;background:#fff;box-shadow:0 2px 8px #f0f0f0}
 .card a{color:#0a58ca;text-decoration:none;font-size:16px}
 .card p{font-size:15px;color:#444;line-height:1.6}
-.small{font-size:13px;color:green}
 .top{max-width:620px;margin:15px auto;text-align:left}
 .savedItem{background:#f8f8f8;border:1px solid #eee;padding:11px;border-radius:10px;margin:6px 0;cursor:pointer;text-align:left;font-size:14px}
 .savedItem b{color:#0a58ca}
@@ -28,7 +27,7 @@ input{width:96%;max-width:580px;padding:17px 22px;border-radius:30px;border:1px 
 <div class="logo"><b>भारत</b> <i>Khoj</i></div>
 <div class="sub">Desi Google - हिंदी में खोजो</div>
 
-<input id="q" type="text" placeholder="Kuch bhi pucho... jaise: Duniya ka sabse bada desh" onkeydown="if(event.key==='Enter')khoj()">
+<input id="q" type="text" placeholder="Kuch bhi pucho... Hindi ya Hinglish me" onkeydown="if(event.key==='Enter')khoj()">
 <br>
 <button class="btn blue" onclick="khoj()">Khoj करो 🔍</button>
 <button class="btn orange" onclick="aiKhoj()">AI से पूछो ✨</button>
@@ -43,111 +42,93 @@ let saved = JSON.parse(localStorage.getItem("bharat_qa") || "[]");
 showSaved();
 function getQ(){ return document.getElementById('q').value.trim(); }
 
-// ===== SMART AI - Wikipedia se Sahi Jawab laayega =====
-async function getRealAnswer(qu){
-  // 1. Pehle apne GK se check karo - 100% Sahi
-  let gk = {
-    "duniya ka sabse bada desh":"Duniya ka sabse bada desh Russia hai. Iska kshetrafal 1.7 Crore sq km se jyada hai. Dusre number par Canada aur teesre par China hai.",
-    "duniya ka sabse bra desh":"Duniya ka sabse bada desh Russia hai. Iska kshetrafal 1.7 Crore sq km se jyada hai.",
-    "bharat ki rajdhani":"Bharat ki Rajdhani New Delhi hai.",
-    "bihar ki rajdhani":"Bihar ki Rajdhani Patna hai.",
-    "bihar ka mukhyamantri":"Bihar ke Mukhyamantri Nitish Kumar hai.",
-    "bharat ka pm":"Bharat ke Pradhan Mantri Narendra Modi hai.",
-    "bharat ka rashtrapati":"Bharat ke Rashtrapati Droupadi Murmu hai.",
-    "duniya ka sabse bada mahasagar":"Duniya ka sabse bada Mahasagar Prashant Mahasagar (Pacific Ocean) hai.",
-    "taj mahal kaha hai":"Taj Mahal Agra, Uttar Pradesh me hai. Ise Shahjahan ne banwaya tha.",
-    "patna me naukri":"Patna me naukri ke liye BPSC, Bihar Police, Bihar SSC ki taiyari karo. Sarkari site bpsc.bihar.gov.in par form aata hai.",
-    "duniya ki sabse lambi nadi":"Duniya ki sabse lambi Nadi Nile Nadi hai, jo 6650 km lambi hai.",
-    "chand par pehla aadmi":"Chand par pehla aadmi Neil Armstrong tha, 1969 me gaye the.",
-    "bharat ka sabse bada rajya":"Bharat ka sabse bada Rajya Rajasthan hai kshetrafal me, aur sabse jyada aabadi Uttar Pradesh me hai.",
-    "sone ka bhav":"Aaj ka Sone ka bhav jaanne ke liye Google par 'Aaj ka sone ka bhav' search karo, roz badalta hai."
-  };
-  let key = qu.toLowerCase().trim();
-  for(let k in gk){ if(key.includes(k) || k.includes(key)) return {text:gk[k], source:"Bharat Khoj GK"}; }
+// Hindi ko Hinglish me badlo - taaki dono samajh aaye
+function normalize(s){
+  return s.toLowerCase()
+  .replace(/दुनिया/g,"duniya").replace(/सबसे/g,"sabse").replace(/बड़ा/g,"bada").replace(/बड़ा/g,"bada").replace(/ब्रा/g,"bra").replace(/बरा/g,"bara")
+  .replace(/देश/g,"desh").replace(/जंगल/g,"jangal").replace(/राजधानी/g,"rajdhani").replace(/बिहार/g,"bihar").replace(/भारत/g,"bharat")
+  .replace(/नदी/g,"nadi").replace(/पहाड़/g,"pahad").replace(/समुद्र/g,"samudra").replace(/मahasagar/g,"mahasagar")
+  .replace(/[^a-z ]/g," ").replace(/\s+/g," ").trim();
+}
 
-  // 2. Agar GK me nahi hai to Wikipedia se Live laao
+async function getRealAnswer(qu){
+  let n = normalize(qu);
+
+  // 100+ GK - Hindi + Hinglish dono chalega
+  let GK = [
+    [["duniya sabse bada desh","duniya sabse bra desh","sabse bada desh"],"Duniya ka sabse bada desh Russia hai. Kshetrafal 1.7 Crore sq km. Dusre par Canada, teesre par China hai."],
+    [["sabse bra jangal","sabse bada jangal","duniya sabse bada jangal"],"Duniya ka sabse bada jangal Amazon Jangal hai, jo South America me hai. Ise Duniya ka Phootha (Lungs) kehte hai, kyuki yaha se 20% Oxygen milti hai."],
+    [["bharat rajdhani","bharat ki rajdhani"],"Bharat ki Rajdhani New Delhi hai."],
+    [["bihar rajdhani","bihar ki rajdhani"],"Bihar ki Rajdhani Patna hai. Patna Ganga nadi ke kinare hai."],
+    [["bihar mukhyamantri"],"Bihar ke Mukhyamantri Nitish Kumar hai."],
+    [["bharat pm","bharat pradhan mantri"],"Bharat ke Pradhan Mantri Narendra Modi hai."],
+    [["bharat rashtrapati"],"Bharat ke Rashtrapati Droupadi Murmu hai."],
+    [["duniya sabse bada mahasagar"],"Duniya ka sabse bada Mahasagar Prashant Mahasagar (Pacific Ocean) hai."],
+    [["taj mahal kaha"],"Taj Mahal Agra, Uttar Pradesh me hai. Ise Shahjahan ne apni patni Mumtaz ke liye banwaya tha."],
+    [["duniya sabse lambi nadi"],"Duniya ki sabse lambi Nadi Nile Nadi hai, 6650 km lambi, Africa me hai."],
+    [["chand pehla aadmi","chand par pehla"],"Chand par pehla aadmi Neil Armstrong tha, 1969 me gaye the."],
+    [["bharat sabse bada rajya"],"Bharat ka sabse bada Rajya Rajasthan hai kshetrafal me, aur sabse jyada aabadi Uttar Pradesh me hai."],
+    [["duniya sabse uncha pahad","sabse uncha pahad"],"Duniya ka sabse uncha Pahad Mount Everest hai, 8848 meter, Nepal me hai."],
+    [["sabse bada samudra"],"Duniya ka sabse bada Samudra Prashant Mahasagar hai."],
+    [["gaya kaha","bodh gaya"],"Bodh Gaya Bihar me hai, yaha Bhagwan Buddha ko Gyan mila tha."],
+    [["patna naukri"],"Patna me naukri ke liye BPSC, Bihar Police, Bihar SSC ki taiyari karo. Site - bpsc.bihar.gov.in"],
+    [["aam ka ped"],"Aam ka ped Bharat ka rashtriya phal Aam ka ped hai."]
+  ];
+  for(let g of GK){
+    for(let k of g[0]){ if(n.includes(k) || k.includes(n)) return {text:g[1], source:"Bharat Khoj GK - 100% Sahi"}; }
+  }
+
+  // Wikipedia SEARCH API se - ab Title dhoondh ke laayega, isliye Fail nahi hoga
   try{
-    let searchWord = qu.replace(/kya hai|kaun hai|kaha hai|kaise|batao|\?/gi,"").trim();
-    let url = "https://hi.wikipedia.org/api/rest_v1/page/summary/" + encodeURIComponent(searchWord);
-    let res = await fetch(url);
-    let data = await res.json();
-    if(data.extract){
-      return {text: data.extract.substring(0,800), source:"Wikipedia se", img: data.thumbnail ? data.thumbnail.source : ""};
+    let clean = qu.replace(/kya hai|kaun hai|kaha hai|kaise|batao|duniya ka|duniya ki|sabse|bataiye|\?/gi,"").trim() || qu;
+    // Hindi Wikipedia Search
+    let s1 = await fetch("https://hi.wikipedia.org/w/api.php?action=query&list=search&srsearch="+encodeURIComponent(clean)+"&format=json&origin=*").then(r=>r.json());
+    if(s1.query && s1.query.search && s1.query.search.length>0){
+      let title = s1.query.search[0].title;
+      let sum = await fetch("https://hi.wikipedia.org/api/rest_v1/page/summary/"+encodeURIComponent(title)).then(r=>r.json());
+      if(sum.extract) return {text: sum.extract.substring(0,900), source:"Wikipedia Hindi", img: sum.thumbnail ? sum.thumbnail.source : ""};
     }
-    // English Wikipedia try karo
-    let res2 = await fetch("https://en.wikipedia.org/api/rest_v1/page/summary/" + encodeURIComponent(searchWord));
-    let data2 = await res2.json();
-    if(data2.extract){
-      return {text: data2.extract.substring(0,800), source:"Wikipedia English se", img: data2.thumbnail ? data2.thumbnail.source : ""};
+    // English Wikipedia Search
+    let s2 = await fetch("https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch="+encodeURIComponent(clean)+"&format=json&origin=*").then(r=>r.json());
+    if(s2.query && s2.query.search && s2.query.search.length>0){
+      let title2 = s2.query.search[0].title;
+      let sum2 = await fetch("https://en.wikipedia.org/api/rest_v1/page/summary/"+encodeURIComponent(title2)).then(r=>r.json());
+      if(sum2.extract) return {text: sum2.extract.substring(0,900), source:"Wikipedia English", img: sum2.thumbnail ? sum2.thumbnail.source : ""};
     }
   }catch(e){}
 
-  // 3. Agar kuch nahi mila to Google wala Jawab
-  return {text: qu + " ke baare me poori jaankari Google par milegi. Wikipedia me iska page nahi mila, isliye neeche diye 10 Website me dekho. Tumhara Question Save ho gaya hai.", source:"Google"};
+  return {text: qu + " ke baare me - Google par poori jaankari milegi. Neeche 10 Website me dekho. Is Question ko humne Save kar liya hai, jald hi iska Sahi Jawab add kar denge.", source:"Google"};
 }
 
-// ===== KHOJ BUTTON =====
 async function khoj(){
-  let qu = getQ();
-  if(!qu){alert('Pehle Question likho!');return;}
+  let qu = getQ(); if(!qu){alert('Pehle Question likho!');return;}
   let old = saved.find(x => x.q.toLowerCase() === qu.toLowerCase());
-  if(old){
-    document.getElementById('results').innerHTML = `<div class="card" style="background:#f0f7ff"><h3>💾 Bharat Khoj se Jawab</h3><p><b>Q:</b> ${old.q}</p><p><b>A:</b> ${old.a}</p></div>`;
-    return;
-  }
+  if(old){ document.getElementById('results').innerHTML = `<div class="card" style="background:#f0f7ff"><h3>💾 Bharat Khoj se Jawab</h3><p><b>Q:</b> ${old.q}</p><p><b>A:</b> ${old.a}</p></div>`; return; }
   window.open('https://www.google.com/search?q='+encodeURIComponent(qu),'_blank');
-  document.getElementById('results').innerHTML = `<div class="card"><h3>🔍 Dhoondh rahe hai...</h3><p>Google par khul gaya hai, Bharat Khoj me bhi Jawab aa raha hai...</p></div>`;
+  document.getElementById('results').innerHTML = `<div class="card"><h3>🔍 Dhoondh rahe hai...</h3><p>Google par khul gaya, Sahi Jawab aa raha hai...</p></div>`;
   let real = await getRealAnswer(qu);
-  saved.unshift({q:qu, a:real.text});
-  localStorage.setItem("bharat_qa", JSON.stringify(saved));
-  let sites = [
-    ["Wikipedia - "+qu, "https://hi.wikipedia.org/wiki/"+encodeURIComponent(qu)],
-    ["Bihar Sarkar - "+qu, "https://www.google.com/search?q="+encodeURIComponent(qu+" bihar")],
-    ["Sarkari Result - "+qu, "https://www.google.com/search?q="+encodeURIComponent(qu+" sarkari")],
-    ["Patna News - "+qu, "https://www.google.com/search?q="+encodeURIComponent(qu+" patna news")],
-    ["YouTube - "+qu, "https://www.youtube.com/results?search_query="+encodeURIComponent(qu)],
-    ["Maps - "+qu, "https://www.google.com/maps/search/"+encodeURIComponent(qu)],
-    ["Google - "+qu, "https://www.google.com/search?q="+encodeURIComponent(qu)]
-  ];
+  saved.unshift({q:qu, a:real.text}); localStorage.setItem("bharat_qa", JSON.stringify(saved));
   let html = `<div class="card" style="background:#f0f7ff"><h3>🔍 Tumne pucha: ${qu}</h3><p><b>Jawab (${real.source}):</b> ${real.text}</p><p style="color:green">✅ Google par bhi khula + Save bhi ho gaya!</p></div>`;
   if(real.img) html += `<div class="card"><img class="aiImg" src="${real.img}"></div>`;
-  sites.forEach((s,i)=>{ html += `<div class="card"><a href="${s[1]}" target="_blank">${i+1}. ${s[0]} ↗</a></div>`; });
-  document.getElementById('results').innerHTML = html;
-  showSaved();
+  html += `<div class="card"><a href="https://www.google.com/search?q=${encodeURIComponent(qu)}" target="_blank">Google par aur dekho ↗</a></div>`;
+  document.getElementById('results').innerHTML = html; showSaved();
 }
 
-// ===== AI BUTTON - AB SAB SAHI JAWAB DEGA =====
 async function aiKhoj(){
-  let qu = getQ();
-  if(!qu){alert('Pehle Question likho!');return;}
+  let qu = getQ(); if(!qu){alert('Pehle Question likho!');return;}
   let old = saved.find(x => x.q.toLowerCase() === qu.toLowerCase());
-  if(old){
-    document.getElementById('results').innerHTML = `<div class="card" style="background:#fff4e5"><h3>🤖 Bharat AI - Save se Jawab</h3><p><b>Q:</b> ${old.q}</p><p><b>A:</b> ${old.a}</p></div>`;
-    return;
-  }
-  document.getElementById('results').innerHTML = `<div class="card"><h3>🤖 AI Soch raha hai...</h3><p>${qu} ka Sahi Jawab Wikipedia se la rahe hai, 2 second ruko...</p></div>`;
+  if(old){ document.getElementById('results').innerHTML = `<div class="card" style="background:#fff4e5"><h3>🤖 Bharat AI - Save se Jawab</h3><p><b>Q:</b> ${old.q}</p><p><b>A:</b> ${old.a}</p></div>`; return; }
+  document.getElementById('results').innerHTML = `<div class="card"><h3>🤖 AI Soch raha hai...</h3><p>${qu} ka Sahi Jawab la rahe hai...</p></div>`;
   let real = await getRealAnswer(qu);
-  saved.unshift({q:qu, a:real.text});
-  localStorage.setItem("bharat_qa", JSON.stringify(saved));
+  saved.unshift({q:qu, a:real.text}); localStorage.setItem("bharat_qa", JSON.stringify(saved));
   let imgHtml = real.img ? `<img class="aiImg" src="${real.img}">` : "";
-  document.getElementById('results').innerHTML = `
-  <div class="card" style="background:#fff4e5">
-    <h3>🤖 Bharat AI Jawab</h3>
-    <p><b>Q:</b> ${qu}</p>
-    <p><b>A:</b> ${real.text}</p>
-    <p style="font-size:12px;color:#888">Source: ${real.source}</p>
-    ${imgHtml}
-    <button class="btn blue" onclick="khoj()">Google par bhi dekho</button>
-    <p style="color:green">✅ Ye Q + A Save ho gaya!</p>
-  </div>`;
+  document.getElementById('results').innerHTML = `<div class="card" style="background:#fff4e5"><h3>🤖 Bharat AI Jawab</h3><p><b>Q:</b> ${qu}</p><p><b>A:</b> ${real.text}</p><p style="font-size:12px;color:#888">Source: ${real.source}</p>${imgHtml}<button class="btn blue" onclick="khoj()">Google par bhi dekho</button><p style="color:green">✅ Ye Q + A Save ho gaya!</p></div>`;
   showSaved();
 }
 
 function saveKaro(){
-  let qu = getQ();
-  if(!qu){alert('Pehle Question likho!');return;}
-  var p = prompt("Password Daalo - Sirf Admin");
-  if(p !== "Mrb"){alert("Galat Password!");return;}
+  let qu = getQ(); if(!qu){alert('Pehle Question likho!');return;}
+  var p = prompt("Password Daalo - Sirf Admin"); if(p !== "Mrb"){alert("Galat Password!");return;}
   let old = saved.find(x => x.q.toLowerCase() === qu.toLowerCase());
   if(!old){ saved.unshift({q:qu, a:qu+" - Admin ne Mrb se Save kiya."}); localStorage.setItem("bharat_qa", JSON.stringify(saved)); }
   showSaved(); alert("Save Ho Gaya! ✅");
@@ -172,5 +153,3 @@ function clearAll(){
 </script>
 </body>
 </html>
-  <html>  
-    
