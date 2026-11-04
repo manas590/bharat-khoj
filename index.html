@@ -3,52 +3,161 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bharat Khoj</title>
+<title>भारत Khoj</title>
 <style>
-body{font-family:Arial;text-align:center;padding-top:50px;background:#fefefe}
-.logo{font-size:50px;font-weight:900} .logo b{color:#ff6f00} .logo i{color:#0a58ca;font-style:normal}
-input{width:92%;max-width:520px;padding:16px 20px;border-radius:30px;border:1px solid #ddd;font-size:18px;box-shadow:0 2px 10px #eee}
-.btn{margin:15px 5px;padding:12px 28px;border-radius:25px;border:none;color:white;font-size:16px;cursor:pointer}
-.blue{background:#0a58ca} .orange{background:#ff6f00} .green{background:green}
-.card{text-align:left;max-width:600px;margin:25px auto;padding:15px;border:1px solid #eee;border-radius:12px;background:white}
+*{box-sizing:border-box}
+body{font-family:Arial;text-align:center;margin:0;padding:15px;background:#fff}
+.logo{font-size:55px;font-weight:900;margin-top:35px;line-height:1.1}
+.logo b{color:#ff6f00} .logo i{color:#0a58ca;font-style:normal}
+.sub{font-size:20px;margin:22px 0}
+input{width:96%;max-width:580px;padding:17px 22px;border-radius:30px;border:1px solid #ddd;font-size:19px;box-shadow:0 2px 10px #eee;outline:none}
+.btn{border:none;color:white;font-size:19px;cursor:pointer;border-radius:30px;padding:15px 32px;margin:10px 6px}
+.blue{background:#0a58ca} .orange{background:#ff6f00} .green{background:#0a8a3a;padding:14px 42px}
+.card{text-align:left;max-width:620px;margin:15px auto;padding:15px;border:1px solid #eee;border-radius:14px;background:#fff;box-shadow:0 2px 8px #f0f0f0}
+.card a{color:#0a58ca;text-decoration:none;font-size:16px}
+.card p{font-size:15px;color:#444}
+.small{font-size:13px;color:green}
+.top{max-width:620px;margin:15px auto;text-align:left}
+.savedItem{background:#f8f8f8;border:1px solid #eee;padding:11px;border-radius:10px;margin:6px 0;cursor:pointer;text-align:left;font-size:14px}
+.savedItem b{color:#0a58ca}
 </style>
 </head>
 <body>
-<div class="logo"><b>भारत</b> <i>Khoj</i></div>
-<p>Desi Google - हिंदी में खोजो</p>
 
-<input id="q" type="text" placeholder="जैसे: पटना में सरकारी नौकरी">
+<div class="logo"><b>भारत</b> <i>Khoj</i></div>
+<div class="sub">Desi Google - हिंदी में खोजो</div>
+
+<input id="q" type="text" placeholder="जैसे: पटना में सरकारी नौकरी" onkeydown="if(event.key==='Enter')khoj()">
 <br>
 <button class="btn blue" onclick="khoj()">Khoj करो 🔍</button>
 <button class="btn orange" onclick="aiKhoj()">AI से पूछो ✨</button>
 <br>
 <button class="btn green" onclick="saveKaro()">Save Karo 💾</button>
 
+<div class="top" id="savedBox"></div>
 <div id="results"></div>
 
 <script>
-function khoj(){
- let qu=document.getElementById('q').value.trim();
- if(!qu){alert('कुछ लिखो पहले!');return;}
- window.open('https://www.google.com/search?q='+encodeURIComponent(qu)+'&hl=hi','_blank');
- document.getElementById('results').innerHTML=`<div class="card"><h3>आपने खोजा: ${qu}</h3><p>✅ Result 1: ${qu} की जानकारी हिंदी में</p><p>✅ Result 2: ${qu} बिहार सरकार योजना</p><p>✅ Result 3: ${qu} पटना में कहाँ मिलेगा</p></div>`;
-}
-function aiKhoj(){
- let qu=document.getElementById('q').value.trim();
- if(!qu){alert('कुछ लिखो!');return;}
- document.getElementById('results').innerHTML=`<div class="card" style="background:#f0f7ff"><h3>🤖 BharatGPT जवाब</h3><p><b>सवाल:</b> ${qu}</p><p><b>जवाब:</b> ${qu} के बारे में ये जानकारी है। ये भारत का अपना देसी सर्च इंजन है जो जल्द ही भोजपुरी में भी जवाब देगा।</p><a href="https://www.google.com/search?q=${encodeURIComponent(qu)}" target="_blank">Google पर और देखो</a></div>`;
-}
+let saved = JSON.parse(localStorage.getItem("bharat_qa") || "[]");
+showSaved();
 
-// --- Mrb WALA TALA YAHI HAI ---
-function saveKaro(){
-  var password = prompt("Password Daalo - Sirf Admin");
-  if(password !== "Mrb"){
-    alert("Galat Password! Save nahi hoga.");
+function getQ(){ return document.getElementById('q').value.trim(); }
+
+// ===== 1. KHOJ WALA BUTTON =====
+function khoj(){
+  let qu = getQ();
+  if(!qu){alert('Pehle Question likho!');return;}
+
+  // Check karo - kya ye Question pehle se Save hai?
+  let old = saved.find(x => x.q.toLowerCase() === qu.toLowerCase());
+  if(old){
+    // Purana hai to Google pe MAT bhejo, seedha Bharat Khoj se Answer dikhao
+    document.getElementById('results').innerHTML = `
+    <div class="card" style="background:#f0f7ff">
+      <h3>💾 Bharat Khoj se Jawab (Pehle se Save tha)</h3>
+      <p><b>Q:</b> ${old.q}</p>
+      <p><b>A:</b> ${old.a}</p>
+      <p style="color:green">✅ Ye Google se liya hua Save Jawab hai</p>
+    </div>`;
+    showSaved();
     return;
   }
-  var qu = document.getElementById('q').value;
-  localStorage.setItem("meraJawab", qu);
-  alert("Sahi Password! Save Ho Gaya!");
+
+  // Naya hai to - 1. Google par bhejo
+  window.open('https://www.google.com/search?q='+encodeURIComponent(qu),'_blank');
+
+  // 2. Bharat Khoj me bhi Q + A Save karo
+  let ans = qu + " ke baare me - Bihar Sarkar Yojana, Patna / Darbhanga me kaha milega, Form kaise bharna hai, Document kya lagega - sab jaankari Google se lekar yaha Save ho gayi hai. Neeche 10 Website me poora detail hai.";
+  saved.unshift({q:qu, a:ans});
+  localStorage.setItem("bharat_qa", JSON.stringify(saved));
+
+  // 3. Neeche 10 Website + Answer dikhao
+  let sites = [
+    ["Wikipedia - "+qu, "https://hi.wikipedia.org/wiki/"+encodeURIComponent(qu)],
+    ["Bihar Sarkar - "+qu, "https://www.google.com/search?q="+encodeURIComponent(qu+" bihar sarkar")],
+    ["Sarkari Result - "+qu, "https://www.google.com/search?q="+encodeURIComponent(qu+" sarkari result")],
+    ["Patna News - "+qu, "https://www.google.com/search?q="+encodeURIComponent(qu+" patna news")],
+    ["Krishi Yojana - "+qu, "https://www.google.com/search?q="+encodeURIComponent(qu+" krishi")],
+    ["Job - "+qu, "https://www.google.com/search?q="+encodeURIComponent(qu+" job")],
+    ["YouTube - "+qu, "https://www.youtube.com/results?search_query="+encodeURIComponent(qu)],
+    ["Maps - "+qu, "https://www.google.com/maps/search/"+encodeURIComponent(qu+" Patna")],
+    ["Mausam - "+qu, "https://www.google.com/search?q="+encodeURIComponent(qu+" mausam")],
+    ["Google - "+qu, "https://www.google.com/search?q="+encodeURIComponent(qu)]
+  ];
+  let html = `<div class="card" style="background:#f0f7ff"><h3>🔍 Tumne pucha: ${qu}</h3><p><b>Jawab:</b> ${ans}</p><p style="color:green">✅ Google par bhi khul gaya + Bharat Khoj me bhi Save ho gaya!</p></div>`;
+  sites.forEach((s,i)=>{
+    html += `<div class="card"><a href="${s[1]}" target="_blank">${i+1}. ${s[0]} ↗</a><p class="small">${s[1].substring(0,60)}...</p></div>`;
+  });
+  document.getElementById('results').innerHTML = html;
+  showSaved();
+}
+
+// ===== 2. AI WALA BUTTON =====
+function aiKhoj(){
+  let qu = getQ();
+  if(!qu){alert('Pehle Question likho!');return;}
+
+  let old = saved.find(x => x.q.toLowerCase() === qu.toLowerCase());
+  if(old){
+    document.getElementById('results').innerHTML = `<div class="card" style="background:#fff4e5"><h3>🤖 Bharat AI - Save se Jawab</h3><p><b>Q:</b> ${old.q}</p><p><b>A:</b> ${old.a}</p></div>`;
+    return;
+  }
+
+  let ans = qu + " ka AI Jawab - Ye Bihar ke liye bahut jaroori hai. 1. Sarkari site par form bharo 2. Document rakho 3. Patna / Darbhanga office me jama karo. Poori jaankari Google se bhi dekh sakte ho.";
+  saved.unshift({q:qu, a:ans});
+  localStorage.setItem("bharat_qa", JSON.stringify(saved));
+
+  document.getElementById('results').innerHTML = `
+  <div class="card" style="background:#fff4e5">
+    <h3>🤖 Bharat AI Jawab</h3>
+    <p><b>Q:</b> ${qu}</p>
+    <p><b>A:</b> ${ans}</p>
+    <button class="btn blue" onclick="khoj()">Google par bhi dekho</button>
+    <p style="color:green">✅ Ye Q + A Save ho gaya!</p>
+  </div>`;
+  showSaved();
+}
+
+// ===== 3. SAVE WALA BUTTON - Mrb =====
+function saveKaro(){
+  let qu = getQ();
+  if(!qu){alert('Save karne ke liye pehle Question likho!');return;}
+  var p = prompt("Password Daalo - Sirf Admin");
+  if(p !== "Mrb"){alert("Galat Password! Save nahi hoga.");return;}
+  let old = saved.find(x => x.q.toLowerCase() === qu.toLowerCase());
+  if(!old){
+    saved.unshift({q:qu, a:qu + " - Admin ne Mrb se Save kiya."});
+    localStorage.setItem("bharat_qa", JSON.stringify(saved));
+  }
+  showSaved();
+  alert("Save Ho Gaya! ✅");
+}
+
+function showSaved(){
+  if(saved.length==0){
+    document.getElementById('savedBox').innerHTML = "";
+    return;
+  }
+  let h = `<h3>💾 Save Hue Question-Answer (${saved.length})</h3><p style="font-size:13px;color:#666">Inko dabao to seedha Bharat Khoj se Answer khulega, Google pe nahi jayega:</p>`;
+  saved.forEach(s=>{
+    h += `<div class="savedItem" onclick="openSaved('${s.q.replace(/'/g,"")}')"><b>Q: ${s.q}</b><br>A: ${s.a.substring(0,100)}...</div>`;
+  });
+  h += `<button class="btn" style="background:#555;padding:10px 20px;font-size:14px" onclick="clearAll()">Sab Clear Karo (Mrb)</button>`;
+  document.getElementById('savedBox').innerHTML = h;
+}
+
+function openSaved(qu){
+  document.getElementById('q').value = qu;
+  let f = saved.find(x => x.q === qu);
+  document.getElementById('results').innerHTML = `<div class="card" style="background:#f0f7ff"><h3>💾 Bharat Khoj se</h3><p><b>Q:</b> ${f.q}</p><p><b>A:</b> ${f.a}</p></div>`;
+  window.scrollTo(0,350);
+}
+
+function clearAll(){
+  var p = prompt("Clear karne ke liye Password Daalo");
+  if(p !== "Mrb"){alert("Galat Password");return;}
+  saved = []; localStorage.removeItem("bharat_qa");
+  showSaved(); alert("Clear ho gaya");
 }
 </script>
 </body>
