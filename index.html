@@ -1,94 +1,118 @@
 <!DOCTYPE html>
-<html>
+<html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bharat Khoj</title>
 <style>
-body{font-family:Arial;text-align:center;padding:15px;background:#fff}
-input{width:100%;max-width:580px;padding:16px;border-radius:30px;border:1px solid #ddd;font-size:19px;outline:none}
-.btn{border:none;color:#fff;font-size:18px;border-radius:30px;padding:14px 28px;margin:8px;cursor:pointer}
-.blue{background:#0a58ca}.orange{background:#ff6f00}.green{background:#0a8a3a}
-.card{text-align:left;max-width:620px;margin:15px auto;padding:15px;border:1px solid #eee;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,0.05)}
-.box{background:#e8f5e9;padding:12px;border-radius:12px;max-width:620px;margin:10px auto}
+*{box-sizing:border-box;font-family:Arial,sans-serif}
+body{margin:0;background:#fff;text-align:center}
+.logo{font-size:70px;font-weight:bold;margin-top:35px}
+.logo b:nth-child(1){color:#4285F4}.logo b:nth-child(2){color:#EA4335}.logo b:nth-child(3){color:#FBBC05}.logo b:nth-child(4){color:#4285F4}.logo b:nth-child(5){color:#34A853}.logo b:nth-child(6){color:#EA4335}
+.search{max-width:600px;margin:20px auto;display:flex;align-items:center;border:1px solid #dfe1e5;border-radius:30px;padding:10px 15px;box-shadow:0 1px 6px rgba(0,0,0,.15)}
+.search input{flex:1;border:none;outline:none;font-size:18px;padding:5px}
+.search button{border:none;background:none;font-size:22px;cursor:pointer}
+.btn{padding:10px 20px;border-radius:5px;border:none;margin:5px;font-size:15px}
+.orange{background:#ff6d00;color:#fff;font-weight:bold}
+.stats{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:15px}
+.stat{background:#e8f5e9;padding:10px 16px;border-radius:14px;font-size:13px}
+.stat b{display:block;font-size:18px}
+.sites{max-width:700px;margin:20px auto;display:grid;grid-template-columns:repeat(5,1fr);gap:10px;padding:0 12px}
+.site{background:#f8f9fa;border-radius:14px;padding:12px 5px;text-decoration:none;color:#222}
+.site div{font-size:26px}.site small{font-size:11px}
+#results{max-width:620px;margin:15px auto;text-align:left;padding:0 15px}
+.card{border:1px solid #eee;border-radius:14px;padding:14px;margin:10px 0;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.install{position:fixed;bottom:10px;left:50%;transform:translateX(-50%);background:#111;color:#fff;padding:10px 18px;border-radius:30px;border:none}
 </style>
 </head>
 <body>
-<h1 style="font-size:50px;margin:5px">Bharat Khoj</h1>
-<p>Desi Google - Roz 1500 Naye Question Save Hoga</p>
-<div class="box" id="countBox">Loading...</div>
-<input id="q" placeholder="Kuch bhi pucho..." onkeydown="if(event.key==='Enter')khoj()"><br><br>
-<button class="btn blue" onclick="khoj()">Khoj Karo 🔍</button>
-<button class="btn orange" onclick="khoj()">AI Se Pucho ✨</button>
+<div class="logo"><b>B</b><b>h</b><b>a</b><b>r</b><b>a</b><b>t</b></div>
+<p style="color:#666">Desi Google - Roz 1500 Naye Question Save Hoga</p>
+
+<div class="search">
+<span>🔍</span>
+<input id="q" placeholder="Kuch bhi pucho..." onkeydown="if(event.key==='Enter')khoj()">
+<button onclick="micStart()">🎤</button>
+<button onclick="khoj()">➡️</button>
+</div>
+
+<button class="btn orange" onclick="khoj()">✨ AI Se Pucho</button>
+<button class="btn" onclick="document.getElementById('q').value='Bharat ka PM kaun hai';khoj()">I'm Feeling Lucky</button>
+
+<div class="stats">
+<div class="stat">👥 Total Visitors<b id="totalVisit">0</b></div>
+<div class="stat">📥 Total Install<b id="totalInstall">0</b></div>
+<div class="stat">📅 Aaj<b id="countBox">0 / 1500</b></div>
+<div class="stat">💾 Saved<b id="savedCount">0</b></div>
+</div>
+
+<div class="sites">
+<a class="site" href="https://www.youtube.com" target="_blank"><div>▶️</div><small>YouTube</small></a>
+<a class="site" href="https://www.google.com" target="_blank"><div>🔍</div><small>Google</small></a>
+<a class="site" href="https://www.facebook.com" target="_blank"><div>📘</div><small>Facebook</small></a>
+<a class="site" href="https://www.instagram.com" target="_blank"><div>📸</div><small>Instagram</small></a>
+<a class="site" href="https://web.whatsapp.com" target="_blank"><div>💬</div><small>WhatsApp</small></a>
+<a class="site" href="https://www.wikipedia.org" target="_blank"><div>📚</div><small>Wikipedia</small></a>
+<a class="site" href="https://www.amazon.in" target="_blank"><div>🛒</div><small>Amazon</small></a>
+<a class="site" href="https://www.flipkart.com" target="_blank"><div>🛍️</div><small>Flipkart</small></a>
+<a class="site" href="https://www.hotstar.com" target="_blank"><div>🎬</div><small>Hotstar</small></a>
+<a class="site" href="https://www.irctc.co.in" target="_blank"><div>🚆</div><small>IRCTC</small></a>
+</div>
+
 <div id="results"></div>
+<button class="install" onclick="installApp()">📥 App Install Karo</button>
 
 <script>
-Ab8RN6JwrhWKb9bqvnJSmouwCckU-hrSViTcMJ0bRK9htvYYyA
-const FIREBASE_URL = "https://bharat-khoj-13d31-default-rtdb.firebaseio.com";
-const DAILY_LIMIT = 1500;
-
-function aajKaDate(){ return new Date().toISOString().slice(0,10); }
-
-async function getAajCount(){
-  try{ let r = await fetch(FIREBASE_URL+"/daily/"+aajKaDate()+".json").then(x=>x.json());
-  return r ? r.count : 0; }catch(e){ return 0; }
+const GEMINI_KEY="AQ.Ab8RN6IpyEnn1WE5ECzd7XpRoRjyIhjBFGe2QdTsrX4ZMzNoSg";
+const FIREBASE_URL="https://bharat-khoj-13d31-default-rtdb.firebaseio.com";
+function aajKaDate(){return new Date().toISOString().slice(0,10);}
+async function getCount(path){try{let r=await fetch(FIREBASE_URL+"/"+path+".json").then(x=>x.json());return r||0;}catch(e){return 0;}}
+async function setCount(path,val){try{await fetch(FIREBASE_URL+"/"+path+".json",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(val)});}catch(e){}}
+async function updateStats(){
+let v=await getCount("stats/totalVisitors");v++;await setCount("stats/totalVisitors",v);
+document.getElementById('totalVisit').innerText=v;
+let ins=await getCount("stats/totalInstall");
+document.getElementById('totalInstall').innerText=ins;
+let aaj=await getCount("daily/"+aajKaDate());
+document.getElementById('countBox').innerText=aaj+" / 1500";
+let saved=await getCount("stats/saved");
+document.getElementById('savedCount').innerText=saved;
 }
-
-async function badhaoCount(){
-  let c = await getAajCount();
-  await fetch(FIREBASE_URL+"/daily/"+aajKaDate()+".json",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({count:c+1})});
+updateStats();
+async function installApp(){
+let ins=await getCount("stats/totalInstall");ins++;await setCount("stats/totalInstall",ins);
+document.getElementById('totalInstall').innerText=ins;
+alert("Install ho gaya! Total Install: "+ins);
 }
-
-async function updateBoxes(){
-  let aaj = await getAajCount();
-  document.getElementById('countBox').innerHTML = `📅 <b>Aaj: ${aaj} / 1500 use hue</b> | Bache: <b>${1500-aaj}</b>`;
+function micStart(){
+if(!('webkitSpeechRecognition' in window)){alert("Mic support nahi hai, likh ke pucho");return;}
+let rec=new webkitSpeechRecognition();rec.lang='hi-IN';rec.start();
+rec.onresult=function(e){document.getElementById('q').value=e.results[0][0].transcript;khoj();};
 }
-
 async function getFromFirebase(q){
-  try{
-    let r = await fetch(FIREBASE_URL+"/qa.json").then(x=>x.json());
-    if(!r) return null;
-    for(let k in r){
-      if(r[k].q.toLowerCase().trim()===q.toLowerCase().trim()) return r[k];
-    }
-  }catch(e){}
-  return null;
+try{let r=await fetch(FIREBASE_URL+"/qa.json").then(x=>x.json());if(!r)return null;
+for(let k in r){if(r[k].q.toLowerCase().trim()===q.toLowerCase().trim())return r[k];}}catch(e){}return null;
 }
-
 async function saveToFirebase(q,a){
-  await fetch(FIREBASE_URL+"/qa.json",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({q:q,a:a,date:aajKaDate()})});
+try{await fetch(FIREBASE_URL+"/qa.json",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({q:q,a:a})});
+let s=await getCount("stats/saved");await setCount("stats/saved",s+1);}catch(e){}
 }
-
 async function askGemini(qu){
-  gemini-2.0-flash
-  let data = await res.json();
-  return data.candidates[0].content.parts[0].text;
+let res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({contents:[{parts:[{text:"Hindi me saral jawab do: "+qu}]}]})});
+let data=await res.json();return data.candidates[0].content.parts[0].text;
 }
-
 async function khoj(){
-  let qu = document.getElementById('q').value.trim();
-  if(!qu){ alert("Pehle Question likho!"); return; }
-  document.getElementById('results').innerHTML=`<div class="card"><h3>🔍 Jawab la rahe hai...</h3></div>`;
-  let fb = await getFromFirebase(qu);
-  if(fb){
-    document.getElementById('results').innerHTML=`<div class="card"><h3>💾 Save Tha - AI Power Bacha!</h3><p><b>Q:</b> ${qu}</p><p><b>A:</b> ${fb.a}</p></div>`;
-    return;
-  }
-  if(!GEMINI_KEY || GEMINI_KEY.includes("YAHAN")){
-    document.getElementById('results').innerHTML=`<div class="card"><h3>⚠️ Gemini Key Nahi Dali!</h3><p>aistudio.google.com se Key lo aur upar wali line me daalo</p></div>`;
-    return;
-  }
-  try{
-    let ans = await askGemini(qu);
-    await saveToFirebase(qu, ans);
-    await badhaoCount();
-    await updateBoxes();
-    document.getElementById('results').innerHTML=`<div class="card"><h3>✨ AI Se Naya Jawab</h3><p><b>Q:</b> ${qu}</p><p><b>A:</b> ${ans}</p><p style="color:green">✅ Save Ho Gaya!</p></div>`;
-  }catch(e){
-    document.getElementById('results').innerHTML=`<div class="card"><h3>⚠️ ${e.message}</h3></div>`;
-  }
+let qu=document.getElementById('q').value.trim();
+if(!qu){alert("Pehle Question Likho");return;}
+document.getElementById('results').innerHTML='<div class="card"><h3>⏳ Jawab la rahe hai...</h3></div>';
+let fb=await getFromFirebase(qu);
+if(fb){document.getElementById('results').innerHTML='<div class="card"><h3>💾 Save Tha - Turant Mila</h3><p>'+fb.a+'</p></div>';return;}
+try{
+let ans=await askGemini(qu);await saveToFirebase(qu,ans);
+let aaj=await getCount("daily/"+aajKaDate());await setCount("daily/"+aajKaDate(),aaj+1);
+document.getElementById('results').innerHTML='<div class="card"><h3>✨ AI Se Naya Jawab</h3><p>'+ans+'</p></div>';updateStats();
+}catch(e){document.getElementById('results').innerHTML='<div class="card"><h3>❌ Error</h3><p>Key ya Internet check karo</p></div>';}
 }
-updateBoxes();
 </script>
 </body>
-</html>
+                         </html>
