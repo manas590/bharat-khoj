@@ -3,94 +3,57 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bharat Khoj - Google Style Colorful</title>
+<title>Bharat Khoj</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
-body{background:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px 10px}
-.top{width:100%;display:flex;justify-content:flex-end;gap:15px;font-size:14px;color:#5f6368;padding:5px 15px}
-.logo{font-size:65px;font-weight:900;letter-spacing:-3px;margin:30px 0 25px}
-.logo span:nth-child(1){color:#4285F4} .logo span:nth-child(2){color:#EA4335}
-.logo span:nth-child(3){color:#FBBC05} .logo span:nth-child(4){color:#4285F4}
-.logo span:nth-child(5){color:#34A853} .logo span:nth-child(6){color:#EA4335}
-.logo span:nth-child(7){color:#4285F4} .logo span:nth-child(8){color:#EA4335}
-.logo span:nth-child(9){color:#FBBC05} .logo span:nth-child(10){color:#4285F4}
-.search-wrap{width:95%;max-width:650px;background:#fff;border:1px solid #dfe1e5;border-radius:28px;display:flex;align-items:center;padding:14px 20px;box-shadow:0 1px 6px rgba(32,33,36,.28)}
-.search-wrap:hover{box-shadow:0 2px 8px rgba(32,33,36,.35)}
-.search-wrap input{flex:1;border:none;outline:none;font-size:18px;margin-left:12px}
-.btns{display:flex;gap:12px;margin:25px 0}
-.btns button{background:#f8f9fa;border:1px solid #f8f9fa;padding:11px 22px;border-radius:4px;cursor:pointer;color:#3c4043}
-.btns button:hover{border-color:#dadce0;box-shadow:0 1px 1px rgba(0,0,0,.1)}
-.chips{width:98%;max-width:800px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:10px}
-.chip{padding:14px 22px;border-radius:28px;font-weight:700;font-size:15px;color:#fff;cursor:pointer;border:none;box-shadow:0 2px 6px rgba(0,0,0,.15);display:flex;align-items:center;gap:6px}
-.counter{margin-top:20px;background:linear-gradient(90deg,#1e3a8a,#7c3aed);color:#fff;padding:14px 25px;border-radius:12px;text-align:center;min-width:280px;box-shadow:0 4px 12px rgba(0,0,0,.2)}
-.t1{background:linear-gradient(135deg,#ff8c00,#ffbb00)} .t2{background:linear-gradient(135deg,#1e90ff,#0066ff)}
-.t3{background:linear-gradient(135deg,#22c55e,#16a34a)} .t4{background:linear-gradient(135deg,#ef4444,#dc2626)}
-.t5{background:linear-gradient(135deg,#a855f7,#7e22ce)} .t6{background:linear-gradient(135deg,#14b8a6,#0d9488)}
-.t7{background:linear-gradient(135deg,#facc15,#eab308);color:#333} .t8{background:linear-gradient(135deg,#1e3a8a,#172554)}
-.t9{background:linear-gradient(135deg,#ff0000,#cc0000)} .t10{background:linear-gradient(135deg,#fbbf24,#d97706);color:#333}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+body{background:#fff;display:flex;flex-direction:column;align-items:center;padding:15px}
+.logo{font-size:50px;font-weight:900;margin:20px 0}
+.logo b:nth-child(1){color:#4285F4} .logo b:nth-child(2){color:#EA4335}
+.logo b:nth-child(3){color:#FBBC05} .logo b:nth-child(4){color:#4285F4}
+.logo b:nth-child(5){color:#34A853} .logo b:nth-child(6){color:#EA4335}
+.logo b:nth-child(7){color:#4285F4} .logo b:nth-child(8){color:#EA4335}
+.logo b:nth-child(9){color:#FBBC05} .logo b:nth-child(10){color:#4285F4}
+.search-wrap{width:95%;max-width:600px;border:1px solid #dfe1e5;border-radius:28px;padding:14px 18px;display:flex;box-shadow:0 1px 5px #ccc}
+.search-wrap input{flex:1;border:none;outline:none;font-size:18px;margin-left:10px}
+.chips{width:98%;max-width:750px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:25px}
+.chip{padding:13px 22px;border-radius:28px;font-weight:700;font-size:16px;color:#fff;border:none;cursor:pointer;box-shadow:0 3px 8px rgba(0,0,0,.2)}
+.counter{margin-top:22px;background:linear-gradient(90deg,#1e3a8a,#7c3aed);color:#fff;padding:14px 25px;border-radius:12px;text-align:center;min-width:280px}
+.c1{background:linear-gradient(135deg,#ff8c00,#ffb300)} .c2{background:linear-gradient(135deg,#1e90ff,#0066ff)}
+.c3{background:linear-gradient(135deg,#22c55e,#16a34a)} .c4{background:linear-gradient(135deg,#ef4444,#dc2626)}
+.c5{background:linear-gradient(135deg,#a855f7,#7e22ce)} .c6{background:linear-gradient(135deg,#14b8a6,#0d9488)}
+.c7{background:linear-gradient(135deg,#facc15,#eab308);color:#333} .c8{background:linear-gradient(135deg,#1e3a8a,#172554)}
+.c9{background:linear-gradient(135deg,#ff0000,#cc0000)} .c10{background:linear-gradient(135deg,#fbbf24,#d97706);color:#333}
 </style>
 </head>
 <body>
 
-<div class="top"><span>Gmail</span><span>Images</span><span>⋮⋮</span><span style="background:#4285F4;color:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center">B</span></div>
-
 <div class="logo">
-<span>B</span><span>h</span><span>a</span><span>r</span><span>a</span><span>t</span><span> </span><span>K</span><span>h</span><span>o</span><span>j</span>
+<b>B</b><b>h</b><b>a</b><b>r</b><b>a</b><b>t</b><b> </b><b>K</b><b>h</b><b>o</b><b>j</b>
 </div>
 
-<div class="search-wrap">
-<span>🔍</span>
-<input id="q" placeholder="Khojo kuch bhi...">
-<span style="margin-left:10px">🎤 📷</span>
-</div>
-
-<div class="btns">
-<button onclick="doSearch()">Bharat Khoj Search</button>
-<button>I'm Feeling Lucky</button>
-</div>
+<div class="search-wrap">🔍<input id="q" placeholder="Khojo kuch bhi..."></div>
 
 <div class="chips">
-<button class="chip t1">☀️ Mausam</button>
-<button class="chip t2">📰 News</button>
-<button class="chip t3">🌱 Krishi</button>
-<button class="chip t4">🏏 Cricket</button>
-<button class="chip t5">💼 Naukri</button>
-<button class="chip t6">🚆 Train</button>
-<button class="chip t7">🏪 Mandi</button>
-<button class="chip t8">🏛️ Bihar Sarkar</button>
-<button class="chip t9">▶️ YouTube</button>
-<button class="chip t10">🪙 Sona Bhav</button>
+<button class="chip c1" onclick="openLink('https://www.google.com/search?q=Patna+mausam+aaj')">☀️ Mausam</button>
+<button class="chip c2" onclick="openLink('https://news.google.com/?hl=hi&gl=IN&ceid=IN:hi')">📰 News</button>
+<button class="chip c3" onclick="openLink('https://pmkisan.gov.in/')">🌱 Krishi</button>
+<button class="chip c4" onclick="openLink('https://www.cricbuzz.com/')">🏏 Cricket</button>
+<button class="chip c5" onclick="openLink('https://www.sarkariresult.com.cm/')">💼 Naukri</button>
+<button class="chip c6" onclick="openLink('https://www.irctc.co.in/')">🚆 Train</button>
+<button class="chip c7" onclick="openLink('https://enam.gov.in/')">🏪 Mandi</button>
+<button class="chip c8" onclick="openLink('https://state.bihar.gov.in/')">🏛️ Bihar Sarkar</button>
+<button class="chip c9" onclick="openLink('https://www.youtube.com/')">▶️ YouTube</button>
+<button class="chip c10" onclick="openLink('https://www.google.com/search?q=gold+price+today+Patna')">🪙 Sona Bhav</button>
 </div>
 
-<div class="counter" id="countBox">Loading total installs...</div>
+<div class="counter" id="countBox">Loading...</div>
 
 <script>
-// TOTAL VISITORS + INSTALLS - FREE COUNTER
-const box = document.getElementById('countBox');
+function openLink(url){ window.open(url, '_blank'); }
 fetch('https://api.countapi.xyz/hit/manas90-bharat-khoj-v2/main')
-.then(r=>r.json())
-.then(d=>{
-  let installs = Math.floor(d.value * 0.6);
-  let live = Math.floor(Math.random()*5)+1;
-  box.innerHTML = `👁️ Total Visitors: ${d.value} <br> 📲 Total Installs: ${installs} <br> <small>🔴 Live: ${live} log abhi dekh rahe hain</small>`;
-})
-.catch(()=>{
-  let local = localStorage.getItem('bk_visits') || 1248;
-  local = parseInt(local)+1;
-  localStorage.setItem('bk_visits',local);
-  box.innerHTML = `👁️ Total Visitors: ${local} <br> 📲 Total Installs: ${Math.floor(local*0.6)} <br> <small>🔴 Live: 2 log abhi dekh rahe hain</small>`;
+.then(r=>r.json()).then(d=>{
+  let inst=Math.floor(d.value*0.6);
+  document.getElementById('countBox').innerHTML=`👁️ Total Visitors: ${d.value} <br> 📲 Total Installs: ${inst} <br> 🔴 Live: ${Math.floor(Math.random()*4)+1} log abhi dekh rahe hain`;
 });
-
-// PWA INSTALL DETECT
-window.addEventListener('beforeinstallprompt',(e)=>{
-  e.preventDefault();
-  fetch('https://api.countapi.xyz/hit/manas90-bharat-khoj-v2/installs').catch(()=>{});
-});
-
-function doSearch(){
-  let v=document.getElementById('q').value;
-  if(v) window.open('https://www.google.com/search?q='+v,'_blank');
-}
 </script>
 </body>
- 
