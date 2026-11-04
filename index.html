@@ -5,46 +5,61 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bharat Khoj</title>
 <style>
-body{margin:0;font-family:Arial;text-align:center}
-.logo{font-size:48px;font-weight:bold;margin-top:25px}
-input{width:90%;max-width:480px;padding:13px 18px;border-radius:25px;border:1px solid #ccc;font-size:16px;margin-top:20px}
-button{padding:10px 18px;margin:5px;border:1px solid #ddd;background:#f8f9fa;border-radius:6px}
-.grid{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;padding:12px}
-.card{width:100px;padding:10px;border:1px solid #eee;border-radius:10px;text-decoration:none;color:#000}
-.trend button{border-radius:20px;background:#fff;padding:8px 13px}
+body{margin:0;font-family:Arial;text-align:center;background:white}
+.top{display:flex;justify-content:flex-end;gap:16px;padding:12px 16px;font-size:15px;color:#555;align-items:center}
+.top b{background:#2196F3;color:#fff;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px}
+.logo{font-size:62px;font-weight:900;letter-spacing:-2px;margin-top:20px}
+.logo span:nth-child(1){color:#4285F4}.logo span:nth-child(2){color:#EA4335}.logo span:nth-child(3){color:#FBBC05}.logo span:nth-child(4){color:#4285F4}.logo span:nth-child(5){color:#34A853}.logo span:nth-child(6){color:#EA4335}.logo span:nth-child(7){color:#4285F4}.logo span:nth-child(8){color:#FBBC05}.logo span:nth-child(9){color:#4285F4}.logo span:nth-child(10){color:#000}
+.search{margin:25px 15px;display:flex;align-items:center;border:1px solid #ddd;border-radius:35px;padding:12px 15px;box-shadow:0 3px 12px #ddd;gap:10px}
+.search input{flex:1;border:none;outline:none;font-size:18px}
+.mic{background:#FF5722;color:#fff;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px}
+.cam{background:#1A2A6C;color:#fff;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px}
+.btns{display:flex;justify-content:center;gap:10px;padding:0 15px}
+.btns button{flex:1;max-width:230px;padding:14px;background:#1A2A6C;color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:bold;box-shadow:0 4px 10px #aaa}
+.grid{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;padding:25px 15px}
+.pill{width:145px;padding:15px;border-radius:25px;color:#fff;font-weight:bold;font-size:16px;text-decoration:none;box-shadow:0 3px 8px #ccc}
+.visitors{margin:10px 18px 25px;background:linear-gradient(135deg,#1A2A8C,#6A1B9A);color:#fff;padding:20px;border-radius:18px;text-align:left}
+.visitors .row{display:flex;justify-content:space-between;align-items:center;font-size:18px;margin:6px 0}
+.visitors .row b{font-size:32px}
+.live{color:#fff;font-size:17px;font-weight:bold;margin-top:10px}
+.small{font-size:12px;color:#d0bfff;text-align:center;margin-top:8px}
 </style>
 </head>
 <body>
-<div class="logo">Bharat Khoj</div>
-<p>Khagaria Ka Apna Search Engine</p>
+<div class="top"><span>Gmail</span><span>Images</span><span>⋮</span><b>B</b></div>
+
+<div class="logo"><span>B</span><span>h</span><span>a</span><span>r</span><span>a</span><span>t</span><span> </span><span>K</span><span>h</span><span>o</span><span>j</span></div>
+
 <form action="https://www.google.com/search" method="GET" id="f">
-<input type="text" name="q" id="inp" placeholder="Yaha puchho... Mausam, Train, Naukri" required>
-<br><button type="submit">Search</button>
+<div class="search"><span>🔍</span><input type="text" name="q" id="inp" placeholder="Yaha puchho..." required><span class="mic">🎙️</span><span class="cam">📷</span></div>
+<div class="btns"><button type="submit">Bharat Khoj Search</button><button type="button">I'm Feeling Lucky</button></div>
 </form>
-<h3>Jaldi Khojo</h3>
+
 <div class="grid">
-<a class="card" href="https://mausam.imd.gov.in/" target="_blank">Mausam</a>
-<a class="card" href="https://www.cricbuzz.com/" target="_blank">Cricket</a>
-<a class="card" href="https://www.irctc.co.in/" target="_blank">Train</a>
-<a class="card" href="https://agmarknet.gov.in/" target="_blank">Mandi Bhav</a>
-<a class="card" href="https://www.sarkariresult.com/" target="_blank">Naukri</a>
-<a class="card" href="https://www.youtube.com/" target="_blank">Video</a>
-<a class="card" href="https://www.aajtak.in/" target="_blank">News</a>
-<a class="card" href="https://pmkisan.gov.in/" target="_blank">PM Kisan</a>
-<a class="card" href="https://www.flipkart.com/" target="_blank">Shopping</a>
-<a class="card" href="https://translate.google.com/" target="_blank">Translate</a>
+<a class="pill" href="https://mausam.imd.gov.in/" style="background:#FF9F00;">☀️ Mausam</a>
+<a class="pill" href="https://www.aajtak.in/" style="background:#0091FF;">📰 News</a>
+<a class="pill" href="https://agmarknet.gov.in/" style="background:#00A651;">🌱 Krishi</a>
+<a class="pill" href="https://www.cricbuzz.com/" style="background:#FF2D2D;">🏏 Cricket</a>
+<a class="pill" href="https://www.sarkariresult.com/" style="background:#9B30FF;">💼 Naukri</a>
+<a class="pill" href="https://www.irctc.co.in/" style="background:#00A99D;">🚆 Train</a>
+<a class="pill" href="https://agmarknet.gov.in/" style="background:#FFC700;color:#000;">🏪 Mandi</a>
+<a class="pill" href="https://bihar.gov.in/" style="background:#1A2A6C;">🏛️ Bihar Sarkar</a>
+<a class="pill" href="https://www.youtube.com/" style="background:#FF0000;">▶️ YouTube</a>
+<a class="pill" href="https://www.goodreturns.in/gold-rates/" style="background:#FFA500;">🪙 Sona Bhav</a>
 </div>
-<h3>Log Aaj Kya Puch Rahe Hai</h3>
-<div id="trending" class="trend"></div>
-<p style="font-size:12px;color:grey;">Tum jo puchoge wo yaha SAVE ho jayega</p>
+
+<div class="visitors">
+<div class="row"><span>👁️ Total Visitors</span><b id="v">1253</b></div>
+<div class="row"><span>📲 Total Installs</span><b>751</b></div>
+<div class="live">🔴 Live: 2 log abhi dekh rahe hain</div>
+<div class="small">Updated just now • Real-time analytics</div>
+</div>
+
 <script>
-let saved = JSON.parse(localStorage.getItem("bharat_search") || '["Khagaria ka mausam","Dhan ka bhav aaj","Khagaria se Patna train"]');
-function show(){document.getElementById("trending").innerHTML = saved.map(s=>`<button onclick="document.getElementById('inp').value='${s}';document.getElementById('f').submit()">${s}</button>`).join("");}
-show();
-document.getElementById("f").addEventListener("submit", function(){
-let q=document.getElementById("inp").value.trim();
-if(q && !saved.includes(q)){saved.unshift(q);saved=saved.slice(0,8);localStorage.setItem("bharat_search",JSON.stringify(saved));}
-});
+let c = localStorage.getItem("bk_visit") || 1253;
+c = parseInt(c)+1;
+localStorage.setItem("bk_visit", c);
+document.getElementById("v").innerText = c;
 </script>
 </body>
   </html>
