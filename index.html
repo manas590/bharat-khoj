@@ -2,116 +2,80 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bharat Khoj</title>
 <style>
-*{box-sizing:border-box;font-family:Arial,sans-serif}
-body{margin:0;background:#fff;text-align:center}
-.logo{font-size:65px;font-weight:bold;margin-top:35px}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+body{background:#fff;display:flex;flex-direction:column;align-items:center;padding:25px 10px 40px;min-height:100vh}
+.logo{font-size:58px;font-weight:900;letter-spacing:-2px;line-height:1}
 .logo b:nth-child(1){color:#4285F4}.logo b:nth-child(2){color:#EA4335}.logo b:nth-child(3){color:#FBBC05}.logo b:nth-child(4){color:#4285F4}.logo b:nth-child(5){color:#34A853}.logo b:nth-child(6){color:#EA4335}
-.search{max-width:600px;margin:20px auto;display:flex;align-items:center;border:1px solid #dfe1e5;border-radius:30px;padding:10px 15px}
-.search input{flex:1;border:none;outline:none;font-size:18px;padding:5px}
-.search button{border:none;background:none;font-size:22px;cursor:pointer}
-.btn{padding:12px 22px;border-radius:30px;border:none;margin:5px;font-size:16px;color:#fff}
-.orange{background:#ff6d00}.blue{background:#1a73e8}
-.stats{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:15px}
-.stat{background:#e8f5e9;padding:10px 16px;border-radius:14px;font-size:13px}
-.stat b{display:block;font-size:18px}
-.sites{max-width:700px;margin:20px auto;display:grid;grid-template-columns:repeat(5,1fr);gap:10px;padding:0 12px}
-.site{background:#f8f9fa;border-radius:14px;padding:12px 5px;text-decoration:none;color:#222}
-.site div{font-size:26px}.site small{font-size:11px}
-#results{max-width:620px;margin:15px auto;text-align:left;padding:0 15px}
-.card{border:1px solid #eee;border-radius:14px;padding:14px;margin:10px 0;box-shadow:0 1px 4px rgba(0,0,0,.08)}
-.install{position:fixed;bottom:10px;left:50%;transform:translateX(-50%);background:#111;color:#fff;padding:10px 18px;border-radius:30px;border:none}
+.sub{margin:12px 0 20px;color:#333;font-size:15px;text-align:center}
+.search-wrap{width:100%;max-width:620px;border:1px solid #dfe1e5;border-radius:28px;display:flex;align-items:center;padding:6px 12px;box-shadow:0 1px 6px rgba(0,0,0,.12)}
+.search-wrap input{flex:1;border:none;outline:none;font-size:18px;padding:10px}
+.mic{font-size:24px;cursor:pointer;padding:5px}
+.arrow{font-size:24px;background:#1a73e8;color:#fff;width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;margin-left:5px}
+.btns{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;justify-content:center}
+.btn{padding:13px 26px;border:none;border-radius:28px;font-weight:700;font-size:17px;color:#fff;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.15)}
+.b1{background:#1a73e8}.b2{background:#ea580c}
+.counter-box{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:22px}
+.cbox{background:#e8f0fe;padding:12px 18px;border-radius:12px;text-align:center;min-width:130px}
+.cbox b{font-size:20px;display:block}
+.chips{width:100%;max-width:760px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:22px}
+.chip{padding:12px 20px;border-radius:28px;font-weight:700;color:#fff;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.15);font-size:15px}
+.c1{background:linear-gradient(135deg,#ff8c00,#ff5e00)}.c2{background:linear-gradient(135deg,#4285f4,#5a95f5)}.c3{background:linear-gradient(135deg,#22c55e,#16a34a)}.c4{background:linear-gradient(135deg,#ef4444,#dc2626)}.c5{background:linear-gradient(135deg,#a855f7,#9333ea)}.c6{background:linear-gradient(135deg,#06b6d4,#0891b2)}.c7{background:linear-gradient(135deg,#facc15,#eab308);color:#000}.c8{background:linear-gradient(135deg,#ec4899,#db2777)}.c9{background:linear-gradient(135deg,#ff0000,#cc0000)}.c10{background:linear-gradient(135deg,#ffd700,#ffb700);color:#000}
+#answer{width:100%;max-width:620px;margin-top:20px;background:#f1f3f4;padding:15px;border-radius:12px;display:none;white-space:pre-wrap;line-height:1.6;font-size:16px}
+.recent{width:100%;max-width:620px;margin-top:18px}
+.recent-item{background:#f1f3f4;padding:7px 13px;border-radius:20px;margin:4px;display:inline-block;cursor:pointer;font-size:14px}
+.apps{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:25px;max-width:650px}
+.apps div{text-align:center;font-size:13px;cursor:pointer;width:70px}
+.apps span{font-size:36px;display:block}
+.install{margin-top:25px;background:#111;color:#fff;padding:12px 25px;border-radius:25px;font-weight:700;cursor:pointer}
 </style>
 </head>
 <body>
+
 <div class="logo"><b>B</b><b>h</b><b>a</b><b>r</b><b>a</b><b>t</b></div>
-<p style="color:#666">Desi Google - Roz 1500 Naye Question Save Hoga</p>
-<div class="search">
-<span>🔍</span>
-<input id="q" placeholder="Kuch bhi pucho..." onkeydown="if(event.key==='Enter')khoj()">
-<button onclick="micStart()">🎤</button>
-<button onclick="khoj()">➡️</button>
-</div>
-<button class="btn blue" onclick="khoj()">Khoj Karo 🔍</button>
-<button class="btn orange" onclick="khoj()">AI Se Pucho ✨</button>
-<div class="stats">
-<div class="stat">👥 Total Visitors<b id="totalVisit">1</b></div>
-<div class="stat">📥 Total Install<b id="totalInstall">0</b></div>
-<div class="stat">📅 Aaj<b id="countBox">0 / 1500</b></div>
-<div class="stat">💾 Saved<b id="savedCount">0</b></div>
-</div>
-<div class="sites">
-<a class="site" href="https://www.youtube.com" target="_blank"><div>▶️</div><small>YouTube</small></a>
-<a class="site" href="https://www.google.com" target="_blank"><div>🔍</div><small>Google</small></a>
-<a class="site" href="https://www.facebook.com" target="_blank"><div>📘</div><small>Facebook</small></a>
-<a class="site" href="https://www.instagram.com" target="_blank"><div>📸</div><small>Instagram</small></a>
-<a class="site" href="https://web.whatsapp.com" target="_blank"><div>💬</div><small>WhatsApp</small></a>
-<a class="site" href="https://www.wikipedia.org" target="_blank"><div>📚</div><small>Wikipedia</small></a>
-<a class="site" href="https://www.amazon.in" target="_blank"><div>🛒</div><small>Amazon</small></a>
-<a class="site" href="https://www.flipkart.com" target="_blank"><div>🛍️</div><small>Flipkart</small></a>
-<a class="site" href="https://www.hotstar.com" target="_blank"><div>🎬</div><small>Hotstar</small></a>
-<a class="site" href="https://www.irctc.co.in" target="_blank"><div>🚆</div><small>IRCTC</small></a>
-</div>
-<div id="results"></div>
-<button class="install" onclick="installApp()">📥 App Install Karo</button>
-<script>
-const GEMINI_KEY="AQ.Ab8RN6IpyEnn1WE5ECzd7XpRoRjyIhjBFGe2QdTsrX4ZMzNoSg";
-function aajKaDate(){return new Date().toISOString().slice(0,10);}
-let localVisit = Number(localStorage.getItem("visit")||0)+1;
-localStorage.setItem("visit",localVisit);
-document.getElementById('totalVisit').innerText = localVisit;
-let localInstall = Number(localStorage.getItem("install")||0);
-document.getElementById('totalInstall').innerText = localInstall;
-let savedList = JSON.parse(localStorage.getItem("savedQA")||"[]");
-document.getElementById('savedCount').innerText = savedList.length;
-let aajCount = Number(localStorage.getItem("aaj_"+aajKaDate())||0);
-document.getElementById('countBox').innerText = aajCount+" / 1500";
-function installApp(){
-localInstall++; localStorage.setItem("install",localInstall);
-document.getElementById('totalInstall').innerText=localInstall;
-alert("Install ho gaya! Total Install: "+localInstall);
-}
-function micStart(){
-if(!('webkitSpeechRecognition' in window)){alert("Mic support nahi hai, likh ke pucho");return;}
-let rec=new webkitSpeechRecognition();rec.lang='hi-IN';rec.start();
-rec.onresult=function(e){document.getElementById('q').value=e.results[0][0].transcript;khoj();};
-}
-async function khoj(){
-let qu=document.getElementById('q').value.trim();
-if(!qu){alert("Pehle Question Likho");return;}
-document.getElementById('results').innerHTML='<div class="card"><h3>⏳ Jawab la rahe hai...</h3></div>';
-let saved = JSON.parse(localStorage.getItem("savedQA")||"[]");
-let found = saved.find(x=>x.q.toLowerCase()===qu.toLowerCase());
-if(found){
-document.getElementById('results').innerHTML='<div class="card"><h3>💾 Save Tha - Turant Mila</h3><p>'+found.a+'</p></div>';
-return;
-}
-try{
-// NAYA TAREEKA - AQ Key ke liye Header use kar rahe hai
-let res=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0flash:generateContent?key='+GEMINI_KEY,{
-method:'POST',
-headers:{'Content-Type':'application/json'},,'x-goog-api-key':GEMINI_KEY
-body:JSON.stringify({contents:[{parts:[{text:qu}]}]})
-});;
+<p class="sub">Desi Google - Roz 1500 Naye Question Save Hoga</p>
 
+<div class="search-wrap">
+<input id="q" placeholder="Kuch bhi khojo..." onkeypress="if(event.key==='Enter')khojKaro()">
+<span class="mic" onclick="startMic()" title="Bol ke khojo">🎤</span>
+<span class="arrow" onclick="khojKaro()">➜</span>
+</div>
 
-  
-  let data=await res.json();
-  
-if(data.error){document.getElementById('results').innerHTML='<div class="card"><h3>❌ Error: '+data.error.message+'</h3></div>';return;}let ans=data.candidates[0].content.parts[0].text;
-  let ans=data.candidates[0].content.parts[0].text;
-saved.push({q:qu,a:ans});
-localStorage.setItem("savedQA",JSON.stringify(saved));
-aajCount++; localStorage.setItem("aaj_"+aajKaDate(),aajCount);
-document.getElementById('savedCount').innerText=saved.length;
-document.getElementById('countBox').innerText=aajCount+" / 1500";
-document.getElementById('results').innerHTML='<div class="card"><h3>✨ AI Se Naya Jawab</h3><p>'+ans+'</p></div>';
-}catch(e){
-document.getElementById('results').innerHTML='<div class="card"><h3>❌ Internet Error</h3><p>'+e.message+'</p></div>';
-}
-}
-</script>
-</body>
-                                                             </html>
+<div class="btns">
+<button class="btn b1" onclick="khojKaro()">Khoj Karo 🔍</button>
+<button class="btn b2" onclick="aiPucho()">AI Se Pucho ✨</button>
+</div>
+
+<div class="counter-box">
+<div class="cbox">👥 Total Visitors<b id="cnt">1</b></div>
+<div class="cbox">📥 Total Install<b>0</b></div>
+<div class="cbox">📅 Aaj<b>0 / 1500</b></div>
+<div class="cbox">💾 Saved<b id="savedCnt">0</b></div>
+</div>
+
+<div class="chips">
+<div class="chip c1" onclick="quick('Mausam')">☀️ Mausam</div>
+<div class="chip c2" onclick="quick('News')">📰 News</div>
+<div class="chip c3" onclick="quick('Krishi Mandi')">🌱 Krishi</div>
+<div class="chip c4" onclick="quick('Cricket')">🏏 Cricket</div>
+<div class="chip c5" onclick="quick('Naukri')">💼 Naukri</div>
+<div class="chip c6" onclick="quick('Train')">🚆 Train</div>
+<div class="chip c7" onclick="quick('Mandi Bhav')">🏪 Mandi</div>
+<div class="chip c8" onclick="quick('Bihar Sarkar')">🏛️ Bihar Sarkar</div>
+<div class="chip c9" onclick="quick('Bhole Baba Bhajan')">🔱 Bhole Baba</div>
+<div class="chip c10" onclick="quick('Sona Bhav')">🪙 Sona Bhav</div>
+</div>
+
+<div id="answer"></div>
+
+<div class="recent"><h3 style="font-size:16px;margin-bottom:8px">🕒 Aapki Recent Search:</h3><div id="recentList"></div></div>
+
+<div class="apps">
+<div onclick="openSite('https://youtube.com')"><span>▶️</span>YouTube</div>
+<div onclick="openSite('https://google.com')"><span>🔍</span>Google</div>
+<div onclick="openSite('https://facebook.com')"><span>📘</span>Facebook</div>
+<div onclick="openSite('https://instagram.com')"><span>📸</span>Instagram</div>
+<div onclick="openSite('https://whatsapp.com')"><span>💬</span>WhatsApp</div>
+<div onclick="openSite('https://wikipedia.org
