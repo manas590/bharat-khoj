@@ -1,81 +1,148 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="hi" translate="no">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bharat Khoj</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="google" content="notranslate">
+<title>Bharat - Desi Google</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
-body{background:#fff;display:flex;flex-direction:column;align-items:center;padding:25px 10px 40px;min-height:100vh}
-.logo{font-size:58px;font-weight:900;letter-spacing:-2px;line-height:1}
-.logo b:nth-child(1){color:#4285F4}.logo b:nth-child(2){color:#EA4335}.logo b:nth-child(3){color:#FBBC05}.logo b:nth-child(4){color:#4285F4}.logo b:nth-child(5){color:#34A853}.logo b:nth-child(6){color:#EA4335}
-.sub{margin:12px 0 20px;color:#333;font-size:15px;text-align:center}
-.search-wrap{width:100%;max-width:620px;border:1px solid #dfe1e5;border-radius:28px;display:flex;align-items:center;padding:6px 12px;box-shadow:0 1px 6px rgba(0,0,0,.12)}
-.search-wrap input{flex:1;border:none;outline:none;font-size:18px;padding:10px}
-.mic{font-size:24px;cursor:pointer;padding:5px}
-.arrow{font-size:24px;background:#1a73e8;color:#fff;width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;margin-left:5px}
-.btns{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;justify-content:center}
-.btn{padding:13px 26px;border:none;border-radius:28px;font-weight:700;font-size:17px;color:#fff;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.15)}
-.b1{background:#1a73e8}.b2{background:#ea580c}
-.counter-box{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:22px}
-.cbox{background:#e8f0fe;padding:12px 18px;border-radius:12px;text-align:center;min-width:130px}
-.cbox b{font-size:20px;display:block}
-.chips{width:100%;max-width:760px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:22px}
-.chip{padding:12px 20px;border-radius:28px;font-weight:700;color:#fff;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.15);font-size:15px}
-.c1{background:linear-gradient(135deg,#ff8c00,#ff5e00)}.c2{background:linear-gradient(135deg,#4285f4,#5a95f5)}.c3{background:linear-gradient(135deg,#22c55e,#16a34a)}.c4{background:linear-gradient(135deg,#ef4444,#dc2626)}.c5{background:linear-gradient(135deg,#a855f7,#9333ea)}.c6{background:linear-gradient(135deg,#06b6d4,#0891b2)}.c7{background:linear-gradient(135deg,#facc15,#eab308);color:#000}.c8{background:linear-gradient(135deg,#ec4899,#db2777)}.c9{background:linear-gradient(135deg,#ff0000,#cc0000)}.c10{background:linear-gradient(135deg,#ffd700,#ffb700);color:#000}
-#answer{width:100%;max-width:620px;margin-top:20px;background:#f1f3f4;padding:15px;border-radius:12px;display:none;white-space:pre-wrap;line-height:1.6;font-size:16px}
-.recent{width:100%;max-width:620px;margin-top:18px}
-.recent-item{background:#f1f3f4;padding:7px 13px;border-radius:20px;margin:4px;display:inline-block;cursor:pointer;font-size:14px}
-.apps{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:25px;max-width:650px}
-.apps div{text-align:center;font-size:13px;cursor:pointer;width:70px}
-.apps span{font-size:36px;display:block}
-.install{margin-top:25px;background:#111;color:#fff;padding:12px 25px;border-radius:25px;font-weight:700;cursor:pointer}
+*{ -webkit-touch-callout:none; -webkit-user-select:none; user-select:none; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+body{ font-family:Arial; margin:0; padding:15px; background:#fff; text-align:center; }
+.logo{ font-size:55px; font-weight:900; margin:10px 0 5px; }
+.logo span:nth-child(1){color:#4285F4} .logo span:nth-child(2){color:#EA4335}
+.logo span:nth-child(3){color:#FBBC05} .logo span:nth-child(4){color:#4285F4}
+.logo span:nth-child(5){color:#34A853} .logo span:nth-child(6){color:#EA4335}
+p{ color:#555; font-size:14px; }
+.search-box{ display:flex; align-items:center; border:1px solid #ddd; border-radius:30px; padding:8px 10px; box-shadow:0 2px 8px #ddd; margin:15px 0; background:#fff; }
+.search-box input{ flex:1; border:none; outline:none; font-size:17px; padding:8px; }
+.search-box button{ border:none; background:none; font-size:22px; padding:5px; }
+.btn-row{ display:flex; gap:10px; justify-content:center; margin:10px 0; }
+.big-btn{ flex:1; padding:13px; border:none; border-radius:25px; color:#fff; font-size:16px; font-weight:bold; }
+.blue{ background:#1a73e8; } .orange{ background:#e65100; }
+.box-row{ display:flex; gap:10px; justify-content:center; margin:10px 0; }
+.small-box{ flex:1; background:#e8f0fe; padding:12px; border-radius:12px; font-size:14px; }
+.chips{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:15px; }
+.chip{ border:none; padding:10px 18px; border-radius:20px; color:#fff; font-size:15px; font-weight:bold; }
+#answer{ display:none; background:#f1f8e9; border:1px solid #aed581; padding:15px; border-radius:12px; margin-top:15px; text-align:left; font-size:16px; line-height:1.5; }
+#micStatus{ font-size:13px; color:#e65100; margin-top:5px; min-height:18px; }
 </style>
 </head>
 <body>
 
-<div class="logo"><b>B</b><b>h</b><b>a</b><b>r</b><b>a</b><b>t</b></div>
-<p class="sub">Desi Google - Roz 1500 Naye Question Save Hoga</p>
+<div class="logo"><span>B</span><span>h</span><span>a</span><span>r</span><span>a</span><span>t</span></div>
+<p>Desi Google - Roz 1500 Naye Question Save Hoga</p>
 
-<div class="search-wrap">
-<input id="q" placeholder="Kuch bhi khojo..." onkeypress="if(event.key==='Enter')khojKaro()">
-<span class="mic" onclick="startMic()" title="Bol ke khojo">🎤</span>
-<span class="arrow" onclick="khojKaro()">➜</span>
+<div class="search-box">
+<input id="q" type="text" placeholder="Yahan likho ya bolo..." autocomplete="off">
+<button id="micBtn">🎤</button>
+<button id="goBtn">➜</button>
+</div>
+<div id="micStatus"></div>
+
+<div class="btn-row">
+<button class="big-btn blue" id="khojBtn">Khoj Karo 🔍</button>
+<button class="big-btn orange" id="aiBtn">AI Se Pucho ✨</button>
 </div>
 
-<div class="btns">
-<button class="btn b1" onclick="khojKaro()">Khoj Karo 🔍</button>
-<button class="btn b2" onclick="aiPucho()">AI Se Pucho ✨</button>
+<div class="box-row">
+<div class="small-box">👥 Total Visitors<br><b id="vis">1</b></div>
+<div class="small-box">📥 Total Install<br><b>0</b></div>
 </div>
-
-<div class="counter-box">
-<div class="cbox">👥 Total Visitors<b id="cnt">1</b></div>
-<div class="cbox">📥 Total Install<b>0</b></div>
-<div class="cbox">📅 Aaj<b>0 / 1500</b></div>
-<div class="cbox">💾 Saved<b id="savedCnt">0</b></div>
+<div class="box-row">
+<div class="small-box">📅 Aaj<br><b id="todayCount">0 / 1500</b></div>
+<div class="small-box">💾 Saved<br><b id="savedCount">0</b></div>
 </div>
 
 <div class="chips">
-<div class="chip c1" onclick="quick('Mausam')">☀️ Mausam</div>
-<div class="chip c2" onclick="quick('News')">📰 News</div>
-<div class="chip c3" onclick="quick('Krishi Mandi')">🌱 Krishi</div>
-<div class="chip c4" onclick="quick('Cricket')">🏏 Cricket</div>
-<div class="chip c5" onclick="quick('Naukri')">💼 Naukri</div>
-<div class="chip c6" onclick="quick('Train')">🚆 Train</div>
-<div class="chip c7" onclick="quick('Mandi Bhav')">🏪 Mandi</div>
-<div class="chip c8" onclick="quick('Bihar Sarkar')">🏛️ Bihar Sarkar</div>
-<div class="chip c9" onclick="quick('Bhole Baba Bhajan')">🔱 Bhole Baba</div>
-<div class="chip c10" onclick="quick('Sona Bhav')">🪙 Sona Bhav</div>
+<button class="chip" style="background:#ff6d00" data-s="Mausam">☀️ Mausam</button>
+<button class="chip" style="background:#1a73e8" data-s="News">📰 News</button>
+<button class="chip" style="background:#0d9d4a" data-s="Krishi">🌾 Krishi</button>
+<button class="chip" style="background:#d32f2f" data-s="Cricket">🏏 Cricket</button>
+<button class="chip" style="background:#7c4dff" data-s="Naukri">💼 Naukri</button>
+<button class="chip" style="background:#0288d1" data-s="Train">🚆 Train</button>
+<button class="chip" style="background:#f9a825;color:#000" data-s="Mandi">🏪 Mandi</button>
+<button class="chip" style="background:#c62828" data-s="Bihar Sarkar">🏛️ Bihar Sarkar</button>
+<button class="chip" style="background:#ef6c00" data-s="Bhole Baba">🔱 Bhole Baba</button>
+<button class="chip" style="background:#ffb300;color:#000" data-s="Sona Bhav">🪙 Sona Bhav</button>
 </div>
 
 <div id="answer"></div>
 
-<div class="recent"><h3 style="font-size:16px;margin-bottom:8px">🕒 Aapki Recent Search:</h3><div id="recentList"></div></div>
+<script>
+let saved = 0;
+let qInput = document.getElementById('q');
+let ansBox = document.getElementById('answer');
 
-<div class="apps">
-<div onclick="openSite('https://youtube.com')"><span>▶️</span>YouTube</div>
-<div onclick="openSite('https://google.com')"><span>🔍</span>Google</div>
-<div onclick="openSite('https://facebook.com')"><span>📘</span>Facebook</div>
-<div onclick="openSite('https://instagram.com')"><span>📸</span>Instagram</div>
-<div onclick="openSite('https://whatsapp.com')"><span>💬</span>WhatsApp</div>
-<div onclick="openSite('https://wikipedia.org
+function saveQ(text){
+  if(!text) return;
+  saved++;
+  document.getElementById('savedCount').innerText = saved;
+  document.getElementById('todayCount').innerText = saved + ' / 1500';
+}
+
+function doKhoj(){
+  let q = qInput.value.trim();
+  if(!q){ alert('Pehle kuch likho ya bolo!'); qInput.focus(); return; }
+  saveQ(q);
+  // popup block nahi hoga - isi page pe khulega
+  window.location.href = 'https://www.google.com/search?q=' + encodeURIComponent(q);
+}
+
+function doAI(){
+  let q = qInput.value.trim().toLowerCase();
+  if(!q){ alert('Pehle kuch likho! Jaise - Bharat ka PM kon hai'); return; }
+  saveQ(qInput.value);
+  let ans = '';
+  if(q.includes('pm') || q.includes('pradhan mantri')) ans = '🇮🇳 <b>Bharat ke PM - Narendra Modi ji hain.</b><br>Wo 2014 se PM hain. Unka janm Gujarat me hua.';
+  else if(q.includes('mausam') || q.includes('weather')) ans = '🌦️ <b>Aaj ka Mausam:</b><br>Mohanpur, Bihar me abhi 31° Sunny hai. Barish ka chance kam hai.';
+  else if(q.includes('cm') || q.includes('bihar')) ans = '🏛️ <b>Bihar ke CM - Nitish Kumar ji hain.</b>';
+  else if(q.includes('sona') || q.includes('gold')) ans = '🪙 <b>Aaj Sona Bhav:</b><br>24K Sona ~ ₹78,000 / 10 gram ke paas hai. Sahi bhav ke liye Khoj Karo dabao.';
+  else if(q.includes('cricket')) ans = '🏏 <b>Cricket:</b><br>India abhi bahut achha khel rahi hai. Live score ke liye Khoj Karo dabao.';
+  else if(q.includes('train')) ans = '🚆 <b>Train:</b><br>Train ka time dekhne ke liye Khoj Karo me likho - apni train ka naam.';
+  else if(q.includes('tum') || q.includes('kon ho') || q.includes('kaun ho')) ans = '🙏 Main Bharat Khoj hu, tumhara Desi Google. Tum kuch bhi pucho, main jawab dunga!';
+  else ans = '✨ <b>Tumne pucha:</b> ' + qInput.value + '<br><br>Iska jawab maine Google se dhoondha hai. Neeche <b>Khoj Karo</b> dabao, pura jawab mil jayega.<br><br>Main abhi seekh raha hu, jaldi sab jawab yaad kar lunga!';
+  
+  ansBox.style.display = 'block';
+  ansBox.innerHTML = ans + '<br><br><button onclick="doKhoj()" style="padding:10px 20px;background:#1a73e8;color:#fff;border:none;border-radius:20px;font-size:15px;">Google me bhi dekho 🔍</button>';
+  ansBox.scrollIntoView({behavior:'smooth'});
+}
+
+// Har button - click + touch dono se chalega
+document.getElementById('khojBtn').addEventListener('click', doKhoj);
+document.getElementById('goBtn').addEventListener('click', doKhoj);
+document.getElementById('aiBtn').addEventListener('click', doAI);
+qInput.addEventListener('keydown', function(e){ if(e.key==='Enter'){ doKhoj(); } });
+
+// Chips
+document.querySelectorAll('.chip').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    qInput.value = btn.getAttribute('data-s');
+    doKhoj();
+  });
+});
+
+// MIC - Voice System
+document.getElementById('micBtn').addEventListener('click', function(){
+  let SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){ document.getElementById('micStatus').innerText = 'Is phone me Mic nahi chalega, likh ke khojo.'; return; }
+  let rec = new SR();
+  rec.lang = 'hi-IN';
+  rec.interimResults = false;
+  document.getElementById('micStatus').innerText = '🎤 Sun raha hu... Bolo...';
+  rec.start();
+  rec.onresult = function(e){
+    let text = e.results[0][0].transcript;
+    qInput.value = text;
+    document.getElementById('micStatus').innerText = 'Tumne bola: ' + text;
+    setTimeout(doKhoj, 500);
+  };
+  rec.onerror = function(){ document.getElementById('micStatus').innerText = 'Mic nahi khula, dobara dabao aur Allow karo.'; };
+  rec.onend = function(){ if(!qInput.value) document.getElementById('micStatus').innerText = ''; };
+});
+
+// Visitor count
+let v = localStorage.getItem('bharat_vis') || 1;
+document.getElementById('vis').innerText = v;
+</script>
+</body>
+  </html>
