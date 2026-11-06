@@ -18,50 +18,57 @@ h1{font-size:60px;margin:10px 0 0}
 </head>
 <body>
 <h1><span style="color:#4285F4">B</span><span style="color:#EA4335">h</span><span style="color:#FBBC05">a</span><span style="color:#4285F4">r</span><span style="color:#34A853">a</span><span style="color:#EA4335">t</span></h1>
-<p>Desi Google - Roz 1500 Naye Question Save Hoga</p>
+<p>Desi Google - Bina Chabi Wala - Ab Hamesha Chalega</p>
 <div class="search"><input id="sawal" placeholder="Bharat ka PM kaun hai?"><button onclick="voice()" style="border:none;background:none;font-size:22px">🎙️</button></div>
 <button class="btn blue" onclick="pucho()">🔍 Khoj Karo</button>
 <button class="btn orange" onclick="pucho()">✨ AI Se Pucho</button>
 <div class="cats">
-<button onclick="setQ('Aaj ka mausam')">☀️ Mausam</button>
-<button onclick="setQ('Aaj ki news')">📰 News</button>
-<button onclick="setQ('Krishi bhav')">🌾 Krishi</button>
-<button onclick="setQ('Cricket live score')">🏏 Cricket</button>
+<button onclick="setQ('Bharat ka PM kaun hai')">🇮🇳 PM</button>
+<button onclick="setQ('Saif Ali Khan kaun hai')">🎬 Saif Ali Khan</button>
+<button onclick="setQ('Bihar ka mukhyamantri kaun hai')">🏛️ Bihar CM</button>
+<button onclick="setQ('Cricket')">🏏 Cricket</button>
+<button onclick="setQ('Taj Mahal')">🕌 Taj Mahal</button>
 <button onclick="setQ('Sarkari Naukri')">💼 Naukri</button>
 <button onclick="setQ('Train time table')">🚆 Train</button>
 <button onclick="setQ('Mandi bhav')">🧺 Mandi</button>
-<button onclick="setQ('Bihar Sarkar yojana')">🏛️ Bihar Sarkar</button>
-<button onclick="setQ('Aaj sona ka bhav')">🪙 Sona Bhav</button>
-<button onclick="setQ('Aaj ka rashifal')">🔮 Rashifal</button>
+<button onclick="setQ('Sona ka bhav')">🪙 Sona Bhav</button>
+<button onclick="setQ('Rashifal')">🔮 Rashifal</button>
 </div>
 <div id="jawab">Yahan jawab aayega...</div>
 <script>
-// DONO JOD DIYA - 1. FIREBASE + 2. TUMHARI NAYI CHABI
 const DB_URL = "https://bharat-khoj-13d31-default-rtdb.firebaseio.com";
-const MY_TOKEN = "AQ.Ab8RN6Lr3gLgJeRdRIylodCQPqsWpM_kQW4osSXh_ULjMf7SPg";
-const GEMINI_KEY = "AIzaSyD5Qj5YjXbLqJ7y3P9KkF_PURI_CHABI_YAHAN_DALO";
-
 function setQ(t){ document.getElementById('sawal').value=t; pucho(); }
 function voice(){ let r = new (window.SpeechRecognition || window.webkitSpeechRecognition)(); r.lang='hi-IN'; r.onresult = function(e){ document.getElementById('sawal').value = e.results[0][0].transcript; pucho(); } r.start(); }
 async function pucho(){
-  let q = document.getElementById("sawal").value.trim().toLowerCase();
+  let q = document.getElementById("sawal").value.trim();
   if(!q) return;
   document.getElementById("jawab").innerText = "Soch raha hu...";
-  let id = btoa(unescape(encodeURIComponent(q))).replace(/[^a-zA-Z0-9]/g,"_").slice(0,120);
+  let qLow = q.toLowerCase();
+  let id = btoa(unescape(encodeURIComponent(qLow))).replace(/[^a-zA-Z0-9]/g,"_").slice(0,120);
   try{ let r = await fetch(`${DB_URL}/jawab/${id}.json`); let data = await r.json(); if(data && data.text){ document.getElementById("jawab").innerText = "✅ Apne Bhandar se:\n\n" + data.text; return; } }catch(e){}
   try{
-    let res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent`,{
-      method:"POST",
-      headers:{"Content-Type":"application/json","Authorization":"Bearer "+MY_TOKEN},
-      body: JSON.stringify({contents:[{parts:[{text:"Hindi me chhota jawab do: "+q}]}]})
-    });
+    // BINA CHABI WALA - Wikipedia se jawab
+    let searchQ = q.replace(/kaun hai|kya hai|kaun|kahan hai/gi,"").trim() || q;
+    let res = await fetch(`https://hi.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(searchQ)}`);
     let d = await res.json();
-    if(!d.candidates){ document.getElementById("jawab").innerText = "Error: " + JSON.stringify(d).slice(0,300); return; }
-    let ans = d.candidates[0].content.parts[0].text;
-    document.getElementById("jawab").innerText = "🌐 Naya Jawab:\n\n" + ans;
-    await fetch(`${DB_URL}/jawab/${id}.json`,{method:"PUT",body:JSON.stringify({text:ans})});
-  }catch(e){ document.getElementById("jawab").innerText = "Error: " + e.message; }
+    if(!d.extract){
+      res = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(searchQ)}`);
+      d = await res.json();
+    }
+    if(d.extract){
+      let ans = d.title + "\n\n" + d.extract;
+      document.getElementById("jawab").innerText = "🌐 Naya Jawab:\n\n" + ans;
+      await fetch(`${DB_URL}/jawab/${id}.json`,{method:"PUT",body:JSON.stringify({text:ans})});
+      return;
+    }
+    // Agar Wikipedia me na mile to DuckDuckGo se
+    let res2 = await fetch(`https://api.duckduckgo.com/?q=${encodeURIComponent(q)}&format=json&no_html=1&skip_disambig=1`);
+    let d2 = await res2.json();
+    let ans2 = d2.AbstractText || d2.RelatedTopics?.[0]?.Text || "Is bare me abhi jankari nahi mili. Dusra sawal pucho - jaise 'Bharat ka PM kaun hai'";
+    document.getElementById("jawab").innerText = "🌐 Naya Jawab:\n\n" + ans2;
+    await fetch(`${DB_URL}/jawab/${id}.json`,{method:"PUT",body:JSON.stringify({text:ans2})});
+  }catch(e){ document.getElementById("jawab").innerText = "Error: " + e.message + "\n\nDobara try karo bhaiya!"; }
 }
 </script>
 </body>
-</html>
+  </html>
