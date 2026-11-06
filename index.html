@@ -18,21 +18,17 @@ h1{font-size:60px;margin:10px 0 0}
 </head>
 <body>
 <h1><span style="color:#4285F4">B</span><span style="color:#EA4335">h</span><span style="color:#FBBC05">a</span><span style="color:#4285F4">r</span><span style="color:#34A853">a</span><span style="color:#EA4335">t</span></h1>
-<p>Desi Google - Bina Chabi Wala - Ab Hamesha Chalega</p>
-<div class="search"><input id="sawal" placeholder="Bharat ka PM kaun hai?"><button onclick="voice()" style="border:none;background:none;font-size:22px">🎙️</button></div>
+<p>Desi Google - Ab Har Sawal Ka Jawab Aayega</p>
+<div class="search"><input id="sawal" placeholder="Kuch bhi pucho..."><button onclick="voice()" style="border:none;background:none;font-size:22px">🎙️</button></div>
 <button class="btn blue" onclick="pucho()">🔍 Khoj Karo</button>
 <button class="btn orange" onclick="pucho()">✨ AI Se Pucho</button>
 <div class="cats">
 <button onclick="setQ('Bharat ka PM kaun hai')">🇮🇳 PM</button>
 <button onclick="setQ('Saif Ali Khan kaun hai')">🎬 Saif Ali Khan</button>
 <button onclick="setQ('Bihar ka mukhyamantri kaun hai')">🏛️ Bihar CM</button>
-<button onclick="setQ('Cricket')">🏏 Cricket</button>
-<button onclick="setQ('Taj Mahal')">🕌 Taj Mahal</button>
-<button onclick="setQ('Sarkari Naukri')">💼 Naukri</button>
-<button onclick="setQ('Train time table')">🚆 Train</button>
-<button onclick="setQ('Mandi bhav')">🧺 Mandi</button>
-<button onclick="setQ('Sona ka bhav')">🪙 Sona Bhav</button>
-<button onclick="setQ('Rashifal')">🔮 Rashifal</button>
+<button onclick="setQ('Taj Mahal kahan hai')">🕌 Taj Mahal</button>
+<button onclick="setQ('Aaj ka mausam kaisa hai')">☀️ Mausam</button>
+<button onclick="setQ('Cricket live score')">🏏 Cricket</button>
 </div>
 <div id="jawab">Yahan jawab aayega...</div>
 <script>
@@ -41,34 +37,38 @@ function setQ(t){ document.getElementById('sawal').value=t; pucho(); }
 function voice(){ let r = new (window.SpeechRecognition || window.webkitSpeechRecognition)(); r.lang='hi-IN'; r.onresult = function(e){ document.getElementById('sawal').value = e.results[0][0].transcript; pucho(); } r.start(); }
 async function pucho(){
   let q = document.getElementById("sawal").value.trim();
-  if(!q) return;
-  document.getElementById("jawab").innerText = "Soch raha hu...";
+  if(!q){ document.getElementById("jawab").innerText = "Pehle koi sawal likho ya neeche wala button dabao!"; return; }
+  document.getElementById("jawab").innerText = "Soch raha hu... 5 second ruko...";
   let qLow = q.toLowerCase();
   let id = btoa(unescape(encodeURIComponent(qLow))).replace(/[^a-zA-Z0-9]/g,"_").slice(0,120);
+  // 1. FIREBASE ME DEKHO - AGAR PEHLE PUCHA HAI TO TURANT
   try{ let r = await fetch(`${DB_URL}/jawab/${id}.json`); let data = await r.json(); if(data && data.text){ document.getElementById("jawab").innerText = "✅ Apne Bhandar se:\n\n" + data.text; return; } }catch(e){}
+  // 2. FREE AI SE - KISI BHI SAWAL KA JAWAB - BINA CHABI KE
   try{
-    // BINA CHABI WALA - Wikipedia se jawab
-    let searchQ = q.replace(/kaun hai|kya hai|kaun|kahan hai/gi,"").trim() || q;
-    let res = await fetch(`https://hi.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(searchQ)}`);
-    let d = await res.json();
-    if(!d.extract){
-      res = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(searchQ)}`);
-      d = await res.json();
-    }
-    if(d.extract){
-      let ans = d.title + "\n\n" + d.extract;
+    let prompt = "Hindi me chhota aur aasan jawab do, 5-6 line me: " + q;
+    let res = await fetch("https://text.pollinations.ai/" + encodeURIComponent(prompt));
+    let ans = await res.text();
+    if(ans && ans.length > 10){
       document.getElementById("jawab").innerText = "🌐 Naya Jawab:\n\n" + ans;
-      await fetch(`${DB_URL}/jawab/${id}.json`,{method:"PUT",body:JSON.stringify({text:ans})});
+      // Firebase me SAVE karo - taaki agli baar turant mile
+      try{ await fetch(`${DB_URL}/jawab/${id}.json`,{method:"PUT",body:JSON.stringify({text:ans})}); }catch(e){}
       return;
     }
-    // Agar Wikipedia me na mile to DuckDuckGo se
-    let res2 = await fetch(`https://api.duckduckgo.com/?q=${encodeURIComponent(q)}&format=json&no_html=1&skip_disambig=1`);
+  }catch(e){}
+  // 3. AGAR AI FAIL HO JAYE TO WIKIPEDIA SE
+  try{
+    let searchQ = q.replace(/kaun hai|kya hai|kahan hai|kaise/gi,"").trim() || q;
+    let res2 = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(searchQ)}`);
     let d2 = await res2.json();
-    let ans2 = d2.AbstractText || d2.RelatedTopics?.[0]?.Text || "Is bare me abhi jankari nahi mili. Dusra sawal pucho - jaise 'Bharat ka PM kaun hai'";
-    document.getElementById("jawab").innerText = "🌐 Naya Jawab:\n\n" + ans2;
-    await fetch(`${DB_URL}/jawab/${id}.json`,{method:"PUT",body:JSON.stringify({text:ans2})});
-  }catch(e){ document.getElementById("jawab").innerText = "Error: " + e.message + "\n\nDobara try karo bhaiya!"; }
+    if(d2.extract){
+      let ans2 = d2.title + "\n\n" + d2.extract;
+      document.getElementById("jawab").innerText = "🌐 Naya Jawab:\n\n" + ans2;
+      await fetch(`${DB_URL}/jawab/${id}.json`,{method:"PUT",body:JSON.stringify({text:ans2})});
+      return;
+    }
+  }catch(e){}
+  document.getElementById("jawab").innerText = "Internet slow hai bhaiya, dobara button dabao!";
 }
 </script>
 </body>
-  </html>
+</html>
