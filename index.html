@@ -2,90 +2,86 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bharat - Desi Google</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bharat-Khoj</title>
 <style>
-body{font-family:Arial;margin:0;padding:15px;background:#fff;text-align:center}
-.logo{font-size:55px;font-weight:900}
-.logo span:nth-child(1){color:#4285F4}.logo span:nth-child(2){color:#EA4335}
-.logo span:nth-child(3){color:#FBBC05}.logo span:nth-child(4){color:#4285F4}
-.logo span:nth-child(5){color:#34A853}.logo span:nth-child(6){color:#EA4335}
-.search-box{display:flex;align-items:center;border:1px solid #ddd;border-radius:30px;padding:8px 10px}
-.search-box input{flex:1;border:none;outline:none;font-size:17px;padding:8px}
-.btn-row{display:flex;gap:10px;justify-content:center;margin:10px 0}
-.big-btn{flex:1;padding:13px;border:none;border-radius:25px;color:#fff;font-size:16px;font-weight:bold}
-.blue{background:#4285F4}.orange{background:#ff6600}
-.chip{border:none;padding:8px 12px;border-radius:20px;font-weight:bold;margin:3px}
-#answer{display:none;background:#fff8e1;border:1px solid #ffd658;padding:15px;border-radius:12px;margin-top:15px;text-align:left;font-size:16px}
+body{font-family:Arial;background:#fff;text-align:center;padding:15px}
+h1{font-size:60px;margin:10px 0 0}
+.search{display:flex;border:1px solid #ccc;border-radius:30px;padding:8px 15px;max-width:500px;margin:15px auto}
+.search input{border:none;outline:none;flex:1;font-size:18px}
+.btn{padding:12px 20px;border:none;border-radius:25px;font-size:16px;margin:5px}
+.blue{background:#4285F4;color:#fff}.orange{background:#FF6D00;color:#fff}
+.cats{max-width:550px;margin:10px auto;display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.cats button{padding:10px 15px;border-radius:20px;border:1px solid #ddd;background:#f1f1f1}
+#jawab{text-align:left;max-width:550px;margin:20px auto;background:#e8f0fe;padding:15px;border-radius:12px;white-space:pre-wrap}
 </style>
 </head>
 <body>
 
-<div class="logo"><span>B</span><span>h</span><span>a</span><span>r</span><span>a</span><span>t</span></div>
+<h1><span style="color:#4285F4">B</span><span style="color:#EA4335">h</span><span style="color:#FBBC05">a</span><span style="color:#4285F4">r</span><span style="color:#34A853">a</span><span style="color:#EA4335">t</span></h1>
 <p>Desi Google - Roz 1500 Naye Question Save Hoga</p>
 
-<div class="search-box">
-<input id="q" type="text" placeholder="Yahan likho ya bolo...">
-<button id="micBtn">🎤</button>
+<div class="search">
+<input id="sawal" placeholder="Bhart ka pm...">
+<button onclick="voice()" style="border:none;background:none;font-size:22px">🎙️</button>
+</div>
+<button class="btn blue" onclick="pucho()">🔍 Khoj Karo</button>
+<button class="btn orange" onclick="pucho()">✨ AI Se Pucho</button>
+
+<div class="cats">
+<button onclick="setQ('Aaj ka mausam')">☀️ Mausam</button>
+<button onclick="setQ('Aaj ki news')">📰 News</button>
+<button onclick="setQ('Krishi bhav')">🌾 Krishi</button>
+<button onclick="setQ('Cricket live score')">🏏 Cricket</button>
+<button onclick="setQ('Sarkari Naukri')">💼 Naukri</button>
+<button onclick="setQ('Train time table')">🚆 Train</button>
+<button onclick="setQ('Mandi bhav')">🧺 Mandi</button>
+<button onclick="setQ('Bihar Sarkar yojana')">🏛️ Bihar Sarkar</button>
+<button onclick="setQ('Aaj sona ka bhav')">🪙 Sona Bhav</button>
+<button onclick="setQ('Aaj ka rashifal')">🔮 Rashifal</button>
 </div>
 
-<div class="btn-row">
-<button class="big-btn blue" id="khojBtn">Khoj Karo 🔍</button>
-<button class="big-btn orange" id="aiBtn">AI Se Pucho ✨</button>
-</div>
-
-<div>
-<button class="chip" style="background:#ff6f00" data-s="Mausam">☀️ Mausam</button>
-<button class="chip" style="background:#1a73e8;color:#fff" data-s="News">📰 News</button>
-<button class="chip" style="background:#0d9d4a;color:#fff" data-s="Krishi">🌾 Krishi</button>
-<button class="chip" style="background:#d32f2f;color:#fff" data-s="Cricket">🏏 Cricket</button>
-<button class="chip" style="background:#7c4dff;color:#fff" data-s="Naukri">💼 Naukri</button>
-<button class="chip" style="background:#ff8f00" data-s="Train">🚆 Train</button>
-<button class="chip" style="background:#e6e6e6" data-s="Mandi">🧺 Mandi</button>
-<button class="chip" style="background:#4caf50;color:#fff" data-s="Bihar Sarkar">🏛️ Bihar Sarkar</button>
-<button class="chip" style="background:#ffcc00" data-s="Sona Bhav">🪙 Sona Bhav</button>
-</div>
-
-<div id="answer"></div>
+<div id="jawab">Yahan jawab aayega...</div>
 
 <script>
-let qInput = document.getElementById('q');
-let ansBox = document.getElementById('answer');
+// DONO MILA KE DAAL DIYA HAI - KUCH DALNA NAHI HAI!
+const DB_URL = "https://bharat-khoj-13d31-default-rtdb.firebaseio.com";
+const GEMINI_KEY = "AQ.Ab8RN6IGQhjGgxR72LPioBlO9W0h2THtuWAP8cAYk2FpMWxUOw";
 
-async function aiSePucho(question){
-  ansBox.style.display="block";
-  ansBox.innerHTML="AI soch raha hai... ⏳";
+function setQ(t){ document.getElementById('sawal').value=t; pucho(); }
+function voice(){
+  let r = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+  r.lang='hi-IN';
+  r.onresult = function(e){ document.getElementById('sawal').value = e.results[0][0].transcript; pucho(); }
+  r.start();
+}
+async function pucho(){
+  let q = document.getElementById("sawal").value.trim().toLowerCase();
+  if(!q) return;
+  document.getElementById("jawab").innerText = "Soch raha hu...";
+  let id = q.replace(/[^a-z0-9]/g,"_").slice(0,100);
   try{
-    let url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + API_KEY;
-    let res = await fetch(url, {
+    let r = await fetch(`${DB_URL}/jawab/${id}.json`);
+    let data = await r.json();
+    if(data && data.text){
+      document.getElementById("jawab").innerText = "✅ Apne Bhandar se:\n\n" + data.text;
+      return;
+    }
+  }catch(e){}
+  try{
+    let res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`,{
       method:"POST",
       headers:{"Content-Type":"application/json"},
-      body: JSON.stringify({ contents: [{ parts: [{ text: "Hindi me aasan bhasha me jawab do: " + question }] }] })
+      body: JSON.stringify({contents:[{parts:[{text:"Hindi me chhota jawab do: "+q}]}]})
     });
-    let data = await res.json();
-    let jawab = data.candidates[0].content.parts[0].text;
-    ansBox.innerHTML = jawab;
+    let d = await res.json();
+    let ans = d.candidates[0].content.parts[0].text;
+    document.getElementById("jawab").innerText = "🌐 Naya Jawab:\n\n" + ans;
+    await fetch(`${DB_URL}/jawab/${id}.json`,{method:"PUT",body:JSON.stringify({text:ans})});
   }catch(e){
-    ansBox.innerHTML = "Chabi sahi nahi lagi! Niche wali Chabi check karo.";
+    document.getElementById("jawab").innerText = "Chabi sahi se nahi lagi hai! Gemini wali Chabi check karo.";
   }
 }
-
-document.getElementById('aiBtn').onclick = function(){
-  if(!qInput.value){ alert("Pehle kuch likho!"); return; }
-  aiSePucho(qInput.value);
-};
-document.getElementById('khojBtn').onclick = function(){
-  if(!qInput.value) return;
-  window.open("https://www.google.com/search?q=" + qInput.value, "_blank");
-};
-document.querySelectorAll('.chip').forEach(function(b){
-  b.onclick = function(){ qInput.value = b.getAttribute('data-s'); aiSePucho(b.getAttribute('data-s')); }
-});
-
-// ===== SABSE NICHE - YAHIN CHABI CHIPKANI HAI =====
-const API_KEY = AQ.Ab8RN6I6djIrT0K0LoTF2slrMtyJdP7228K32w9Js7sL8cfwtQ
-// ===== SABSE NICHE - YAHIN CHABI CHIPKANI HAI =====
-
 </script>
 </body>
 </html>
