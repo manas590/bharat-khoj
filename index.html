@@ -5,24 +5,176 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bharat-Khoj</title>
 <style>
-body{font-family:Arial;background:#fff;text-align:center;padding:12px;margin:0}
-.logo{font-size:62px;font-weight:bold;letter-spacing:-2px;margin:15px 0 5px}
+body{font-family:Arial;background:#fff;text-align:center;padding:12px;margin:0;overflow-x:hidden}
+.logo{font-size:64px;font-weight:bold;letter-spacing:-2px;margin:15px 0 5px;display:inline-block;animation:udna 2.5s ease-in-out infinite}
+@keyframes udna{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-14px) rotate(1deg)}}
 .logo span:nth-child(1){color:#4285F4}.logo span:nth-child(2){color:#EA4335}.logo span:nth-child(3){color:#FBBC05}.logo span:nth-child(4){color:#4285F4}.logo span:nth-child(5){color:#34A853}.logo span:nth-child(6){color:#EA4335}
-.sub{color:#555;font-size:14px;margin-bottom:12px}
-.search{display:flex;border:1px solid #ccc;border-radius:30px;padding:10px 15px;max-width:520px;margin:10px auto;box-shadow:0 2px 8px #ddd}
+.sub{color:#555;font-size:14px}
+.search{display:flex;border:1px solid #ccc;border-radius:30px;padding:10px 15px;max-width:520px;margin:12px auto;box-shadow:0 2px 10px #ddd}
 .search input{border:none;outline:none;flex:1;font-size:18px}
-.mic{border:none;background:none;font-size:24px;cursor:pointer}
-.btn{padding:12px 22px;border:none;border-radius:25px;font-size:16px;margin:5px;cursor:pointer}
-.blue{background:#4285F4;color:#fff}.orange{background:#FF6D00;color:#fff}
-.sec{font-weight:bold;margin:18px 0 8px;text-align:left;max-width:550px;margin-left:auto;margin-right:auto}
-.cats{max-width:550px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.mic{border:none;background:none;font-size:26px;cursor:pointer}
+.btn{padding:13px 22px;border:none;border-radius:25px;font-size:16px;margin:5px;cursor:pointer;font-weight:bold}
+.blue{background:#4285F4;color:#fff}.orange{background:#FF6D00;color:#fff}.green{background:#34A853;color:#fff}
+.sec{font-weight:bold;margin:16px 0 8px;text-align:left;max-width:550px;margin-left:auto;margin-right:auto}
+.cats,.sites{max-width:550px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
 .cats button{padding:10px 14px;border-radius:20px;border:1px solid #ddd;background:#f1f1f1;cursor:pointer}
-.sites{max-width:550px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
-.sites a{padding:10px 14px;border-radius:20px;border:1px solid #4285F4;background:#e8f0fe;text-decoration:none;color:#000;font-size:14px}
-#jawab{text-align:left;max-width:550px;margin:18px auto;background:#e8f0fe;padding:15px;border-radius:12px;white-space:pre-wrap;min-height:60px}
+.sites a{padding:10px 13px;border-radius:20px;border:1px solid #4285F4;background:#e8f0fe;text-decoration:none;color:#000;font-size:14px}
+#jawab{text-align:left;max-width:550px;margin:18px auto;background:#e8f0fe;padding:15px;border-radius:12px;white-space:pre-wrap;min-height:70px}
 .small{font-size:12px;color:#777}
 </style>
 </head>
 <body>
+
 <div class="logo"><span>B</span><span>h</span><span>a</span><span>r</span><span>a</span><span>t</span></div>
-<p class="sub">Desi Google - B
+<p class="sub">Desi Google - Udata Hua Logo - Bolo Ya Likho</p>
+
+<div class="search">
+<input id="sawal" placeholder="Kuch bhi pucho...">
+<button class="mic" onclick="voice()">🎙️</button>
+</div>
+
+<button class="btn blue" onclick="pucho('bharat')">🇮🇳 Bharat Khoj</button>
+<button class="btn orange" onclick="pucho('ai')">✨ AI Se Pucho</button>
+<button class="btn green" onclick="googleSe()">🔍 Google Se</button>
+
+<div class="sec">🔥 Jaldi Pucho:</div>
+<div class="cats">
+<button onclick="setQ('Bharat ka PM kaun hai')">🇮🇳 PM</button>
+<button onclick="setQ('Saif Ali Khan kaun hai')">🎬 Saif Ali Khan</button>
+<button onclick="setQ('Bihar ka mukhyamantri kaun hai')">🏛️ Bihar CM</button>
+<button onclick="setQ('Taj Mahal kahan hai')">🕌 Taj Mahal</button>
+<button onclick="setQ('Aaj ka mausam kaisa hai')">☀️ Mausam</button>
+<button onclick="setQ('Cricket live score')">🏏 Cricket</button>
+<button onclick="setQ('Sona ka bhav')">🪙 Sona</button>
+<button onclick="setQ('Train time table')">🚆 Train</button>
+</div>
+
+<div class="sec">🌐 10 Website Judi Hui:</div>
+<div class="sites">
+<a href="#" onclick="openSite('wikipedia');return false">📚 Wikipedia</a>
+<a href="#" onclick="openSite('youtube');return false">▶️ YouTube</a>
+<a href="#" onclick="openSite('news');return false">📰 News</a>
+<a href="#" onclick="openSite('maps');return false">🗺️ Maps</a>
+<a href="#" onclick="openSite('weather');return false">☀️ Mausam</a>
+<a href="#" onclick="openSite('cricket');return false">🏏 Cricket</a>
+<a href="#" onclick="openSite('job');return false">💼 Naukri</a>
+<a href="#" onclick="openSite('train');return false">🚆 Train</a>
+<a href="#" onclick="openSite('mandi');return false">🧺 Mandi</a>
+<a href="#" onclick="openSite('shopping');return false">🛒 Shopping</a>
+</div>
+
+<div id="jawab">Yahan jawab aayega...</div>
+<p class="small">Pehli baar naya sawal Google / AI se aayega, dusri baar wahi sawal kisi bhi mobile me apne Bhandar se aayega!</p>
+
+<script>
+// TUMHARA DATABASE + TUMHARI CHABI - DONO
+const DB_URL = "https://bharat-khoj-13d31-default-rtdb.firebaseio.com";
+const MY_TOKEN = "AQ.Ab8RN6Lr3gLgJeRdRIylodCQPqsWpM_kQW4osSXh_ULjMf7SPg";
+
+function setQ(t){ document.getElementById('sawal').value=t; pucho('bharat'); }
+
+// VOICE SYSTEM
+function voice(){
+  let SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){ alert("Is mobile me voice nahi hai, likh ke pucho"); return; }
+  let r = new SR(); r.lang='hi-IN';
+  document.getElementById("jawab").innerText = "🎙️ Boliye Manas bhaiya... Sun raha hu...";
+  r.onresult = function(e){ document.getElementById('sawal').value = e.results[0][0].transcript; pucho('bharat'); };
+  r.start();
+}
+
+// 10 WEBSITE - GOOGLE SE KHULEGI
+function openSite(site){
+  let q = document.getElementById('sawal').value.trim() || "Bharat";
+  let url = "";
+  if(site=='wikipedia') url = "https://hi.wikipedia.org/wiki/" + encodeURIComponent(q);
+  if(site=='youtube') url = "https://www.youtube.com/results?search_query=" + encodeURIComponent(q);
+  if(site=='news') url = "https://www.google.com/search?q=" + encodeURIComponent(q) + "&tbm=nws";
+  if(site=='maps') url = "https://www.google.com/maps/search/" + encodeURIComponent(q);
+  if(site=='weather') url = "https://www.google.com/search?q=" + encodeURIComponent(q + " mausam");
+  if(site=='cricket') url = "https://www.google.com/search?q=cricket+live+score";
+  if(site=='job') url = "https://www.google.com/search?q=" + encodeURIComponent(q + " sarkari naukri");
+  if(site=='train') url = "https://www.google.com/search?q=" + encodeURIComponent(q + " train time table");
+  if(site=='mandi') url = "https://www.google.com/search?q=" + encodeURIComponent(q + " mandi bhav");
+  if(site=='shopping') url = "https://www.google.com/search?q=" + encodeURIComponent(q + " price");
+  window.open(url, "_blank");
+}
+
+function googleSe(){
+  let q = document.getElementById('sawal').value.trim();
+  if(!q){ alert("Pehle sawal likho!"); return; }
+  window.open("https://www.google.com/search?q=" + encodeURIComponent(q), "_blank");
+}
+
+// MAIN LOGIC - PEHLE APNA DATA, NAHI TO GOOGLE / AI
+async function pucho(mode){
+  let q = document.getElementById("sawal").value.trim();
+  if(!q){ document.getElementById("jawab").innerText = "Pehle sawal likho ya 🎙️ dabake bolo!"; return; }
+  document.getElementById("jawab").innerText = "Soch raha hu... 5 second ruko...";
+  let qLow = q.toLowerCase();
+  let id = btoa(unescape(encodeURIComponent(qLow))).replace(/[^a-zA-Z0-9]/g,"_").slice(0,120);
+
+  // STEP 1 - PEHLE APNE BHANDAR ME DEKHO - DUSRE MOBILE KA SAWAL BHI YAHIN MILEGA
+  try{
+    let r = await fetch(`${DB_URL}/jawab/${id}.json`);
+    let data = await r.json();
+    if(data && data.text){
+      document.getElementById("jawab").innerText = "✅ Apne Bhandar Se - Dusre Mobile Wala Bhi Yahi Milega:\n\n" + data.text;
+      return;
+    }
+  }catch(e){}
+
+  // STEP 2 - NAYA SAWAL HAI TO GOOGLE / AI SE LAAO
+  // A) Agar AI button daba hai to AI se
+  if(mode=='ai'){
+    try{
+      let res = await fetch("https://text.pollinations.ai/" + encodeURIComponent("Hindi me chhota aur aasan jawab do, 6 line me: " + q));
+      let ans = await res.text();
+      if(ans && ans.length > 10){
+        document.getElementById("jawab").innerText = "✨ AI Se Naya Jawab - Ab Save Ho Gaya:\n\n" + ans;
+        await fetch(`${DB_URL}/jawab/${id}.json`,{method:"PUT",body:JSON.stringify({text:ans, q:q, time:Date.now()})});
+        return;
+      }
+    }catch(e){}
+  }
+
+  // B) Bharat Khoj / Google se - DuckDuckGo Google jaisa + Wikipedia
+  try{
+    let res2 = await fetch(`https://api.duckduckgo.com/?q=${encodeURIComponent(q)}&format=json&no_html=1&skip_disambig=1`);
+    let d2 = await res2.json();
+    let ans2 = d2.AbstractText || d2.RelatedTopics?.[0]?.Text || "";
+    if(ans2){
+      document.getElementById("jawab").innerText = "🇮🇳 Bharat Khoj - Google Se Naya Jawab - Ab Save Ho Gaya:\n\n" + ans2;
+      await fetch(`${DB_URL}/jawab/${id}.json`,{method:"PUT",body:JSON.stringify({text:ans2, q:q, time:Date.now()})});
+      return;
+    }
+  }catch(e){}
+
+  // C) Wikipedia se
+  try{
+    let searchQ = q.replace(/kaun hai|kya hai|kahan hai|kaise/gi,"").trim() || q;
+    let res3 = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(searchQ)}`);
+    let d3 = await res3.json();
+    if(d3.extract){
+      let ans3 = d3.title + "\n\n" + d3.extract;
+      document.getElementById("jawab").innerText = "🇮🇳 Bharat Khoj - Naya Jawab:\n\n" + ans3;
+      await fetch(`${DB_URL}/jawab/${id}.json`,{method:"PUT",body:JSON.stringify({text:ans3})});
+      return;
+    }
+  }catch(e){}
+
+  // D) Last me AI se hi le aao
+  try{
+    let res4 = await fetch("https://text.pollinations.ai/" + encodeURIComponent("Hindi me jawab do: " + q));
+    let ans4 = await res4.text();
+    document.getElementById("jawab").innerText = "✨ AI Se Jawab:\n\n" + ans4;
+    await fetch(`${DB_URL}/jawab/${id}.json`,{method:"PUT",body:JSON.stringify({text:ans4})});
+    return;
+  }catch(e){}
+
+  document.getElementById("jawab").innerText = "Internet slow hai, dobara dabao Manas bhaiya!";
+}
+</script>
+</body>
+</html>
+
