@@ -128,7 +128,7 @@ async function pucho(mode){
   // A) Agar AI button daba hai to AI se
   if(mode=='ai'){
     try{
-      let res = await fetch("https://text.pollinations.ai/" + encodeURIComponent("Hindi me chhota aur aasan jawab do, 6 line me: " + q));
+      let res = await fetch("https://text.pollinations.ai/" + encodeURIComponent("Hindi me chhota aur aasan jawab do, 6 line me: " + q), { headers: { "Authorization": "Bearer " + MY_TOKEN } });
       let ans = await res.text();
       if(ans && ans.length > 10){
         document.getElementById("jawab").innerText = "✨ AI Se Naya Jawab - Ab Save Ho Gaya:\n\n" + ans;
@@ -165,7 +165,7 @@ async function pucho(mode){
 
   // D) Last me AI se hi le aao
   try{
-    let res4 = await fetch("https://text.pollinations.ai/" + encodeURIComponent("Hindi me jawab do: " + q));
+    let res4 = await fetch("https://text.pollinations.ai/" + encodeURIComponent("Hindi me jawab do: " + q), { headers: { "Authorization": "Bearer " + MY_TOKEN } });
     let ans4 = await res4.text();
     document.getElementById("jawab").innerText = "✨ AI Se Jawab:\n\n" + ans4;
     await fetch(`${DB_URL}/jawab/${id}.json`,{method:"PUT",body:JSON.stringify({text:ans4})});
@@ -177,4 +177,3 @@ async function pucho(mode){
 </script>
 </body>
 </html>
-
